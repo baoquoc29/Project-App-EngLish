@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/homeNavigate"
+        android:icon="@drawable/home"
+        android:title=""
+        ></item>
+    <item android:id="@+id/flashcardNavigate"
+        android:icon="@drawable/flashcard"
+  android:title=""
+        ></item>
+    <item android:id="@+id/searchNavigate"
+        android:icon="@drawable/search"
+        android:title=""
+        ></item>
+    <item android:id="@+id/notificationNavigate"
+        android:icon="@drawable/notification"
+        android:title=""></item>
+    <item android:id="@+id/accountNavigate"
+        android:icon="@drawable/account"
+        android:title=""
+        ></item>
+</menu>

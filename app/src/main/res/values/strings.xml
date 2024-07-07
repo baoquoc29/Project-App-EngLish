@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">TestAudioEnglish</string>
+    <string name="hint_password">Nhập mật khẩu</string>
+    <string name="hint_email">Nhập tài khoản</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="text_view_title">Đăng kí tài khoản</string>
+    <string name="title_2">Đăng kí ngay để nhận ưu đãi</string>
+    <string name="username">Nhập tài khoản</string>
+    <string name="hint_password_again">Nhập lại mật khẩu</string>
+    <string name="hint_name">Họ và tên</string>
+    <string name="hint_age">Nhập độ tuổi</string>
+    <string name="hint_phone">Nhập số điện thoại</string>
+    <string name="hint_signup">Đăng kí ngay</string>
+    <string name="hint_have_account">Đăng nhập tại đây</string>
+    <string name="hint_end_account">Bạn đã có tài khoản?</string>
+    <string name="nh_p_gmail">Nhập gmail</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="toolbar_title">Tạo học phần</string>
+    <string name="hint_name_lesson">Tên học phần</string>
+    <string name="title_label">Tiêu đề</string>
+    <string name="check_description">Check</string>
+    <string name="add_description">Add</string>
+    <string name="name">Test</string>
+    <string name="bao_quoc">Bao Quoc</string>
+    <string name="count_word">3 thuật ngữ</string>
+    <string name="flashcards">Thẻ ghi nhớ</string>
+    <string name="learn">Học</string>
+    <string name="test">Kiểm tra</string>
+    <string name="match">Ghép thẻ</string>
+    <string name="term_label">Thuật ngữ</string>
+    <string name="term_hint">Nhập thuật ngữ</string>
+    <string name="definition_label">Định nghĩa</string>
+    <string name="definition_hint">Nhập định nghĩa</string>
+    <string name="welcome_message">Welcome , testab12</string>
+    <string name="what_to_learn_today">Bạn muốn học gì hôm nay?</string>
+    <string name="study_hours_today">Số giờ học hôm nay</string>
+    <string name="first_time">36 Phút /</string>
+    <string name="second_time">60 Phút</string>
+    <string name="ongoing_tests">Đề thi đang làm</string>
+    <string name="toeic_types">Các dạng trong Toeic</string>
+</resources>
