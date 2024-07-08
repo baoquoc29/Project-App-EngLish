@@ -29,6 +29,9 @@ public class FlashCardRepository {
     public LiveData<List<FlashCardEntity>> getAllFlashCardByTopic(long id){
         return flashCardDao.getAllFlashCardByTopic(id);
     }
+    public LiveData<List<FlashCardEntity>> getListSortByAplphabet(long id){
+        return flashCardDao.getAllFlashCardSortByAlphabet(id);
+    }
     public void insert(FlashCardEntity flashCard) {
         executorService.execute(() -> flashCardDao.insertFlashCard(flashCard));
     }

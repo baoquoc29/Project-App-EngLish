@@ -18,5 +18,8 @@ public interface FlashCardDao {
     long insertFlashCard(FlashCardEntity flashCard);
     @Query("Select * from FLASHCARDENTITY where idTopic = :idTopic")
     LiveData<List<FlashCardEntity>> getAllFlashCardByTopic(long idTopic);
+    @Query("SELECT * FROM FlashCardEntity WHERE idTopic = :idTopic ORDER BY EnglishWord ASC")
+    LiveData<List<FlashCardEntity>> getAllFlashCardSortByAlphabet(long idTopic);
+
 
 }
