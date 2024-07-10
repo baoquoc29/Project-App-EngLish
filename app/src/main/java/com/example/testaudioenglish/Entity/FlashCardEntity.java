@@ -22,11 +22,20 @@ public class FlashCardEntity {
 
     @ColumnInfo(name = "VietnameseWord")
     public String vietWord;
-
+    @ColumnInfo(name = "Tick")
+    public int tick;
     public FlashCardEntity(long idTopic, String englishWord, String vietWord) {
         this.idTopic = idTopic;
         this.englishWord = englishWord;
         this.vietWord = vietWord;
+    }
+
+    public int getTick() {
+        return tick;
+    }
+
+    public void setTick(int tick) {
+        this.tick = tick;
     }
 
     public long getId() {

@@ -1,6 +1,8 @@
 package com.example.testaudioenglish.Adapter;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class MyBottomSheetDialog extends BottomSheetDialogFragment {
     private SortClicked mListener;
+    private SharedPreferences sharedPreferences;
+    private static final String PREFS_NAME = "SortPreferences";
+    private static final String SORT_KEY = "sort_key";
 
     public MyBottomSheetDialog() {
         // Required empty public constructor
@@ -46,6 +51,7 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        sharedPreferences = getContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         return inflater.inflate(R.layout.customsort, container, false);
     }
 
@@ -58,17 +64,29 @@ public class MyBottomSheetDialog extends BottomSheetDialogFragment {
         ImageView natureSortTick = view.findViewById(R.id.NatureSortTick);
         ImageView alphabetSortTick = view.findViewById(R.id.alphabetSortTick);
 
-        natureSortText.setOnClickListener(v -> {
+
+        String sortSelection = sharedPreferences.getString(SORT_KEY, "nature");
+        if ("nature".equals(sortSelection)) {
             natureSortTick.setVisibility(View.VISIBLE);
             alphabetSortTick.setVisibility(View.GONE);
+        } else if ("alphabet".equals(sortSelection)) {
+            natureSortTick.setVisibility(View.GONE);
+            alphabetSortTick.setVisibility(View.VISIBLE);
+        }
+        else if(sortSelection.isEmpty()){
+            natureSortTick.setVisibility(View.VISIBLE);
+            alphabetSortTick.setVisibility(View.GONE);
+        }
+
+        natureSortText.setOnClickListener(v -> {
+            sharedPreferences.edit().putString(SORT_KEY, "nature").apply();
             if (mListener != null) {
                 mListener.onNatureSortSelected();
             }
         });
 
         alphabetSortText.setOnClickListener(v -> {
-            natureSortTick.setVisibility(View.GONE);
-            alphabetSortTick.setVisibility(View.VISIBLE);
+            sharedPreferences.edit().putString(SORT_KEY, "alphabet").apply();
             if (mListener != null) {
                 mListener.onAlphabetSortSelected();
             }

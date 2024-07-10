@@ -1,4 +1,4 @@
-package com.example.testaudioenglish.View;
+package com.example.testaudioenglish.Activity;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
+
 import com.example.testaudioenglish.R;
 import com.example.testaudioenglish.viewmodel.SignUpViewModel;
 import com.example.testaudioenglish.databinding.ActivitySignUpBinding;

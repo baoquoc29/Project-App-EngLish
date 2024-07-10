@@ -48,6 +48,7 @@
             <ImageView
                 android:id="@+id/star_icon"
                 android:layout_width="20dp"
+
                 android:src="@drawable/star"
                 android:layout_height="20dp"/>
         </LinearLayout>

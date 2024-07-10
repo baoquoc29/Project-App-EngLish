@@ -27,10 +27,10 @@
 
         <ImageView
             android:id="@+id/NatureSortTick"
-            android:layout_width="35dp"
+            android:layout_width="25dp"
             android:visibility="gone"
             android:src="@drawable/check"
-            android:layout_height="35dp"/>
+            android:layout_height="25dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -48,9 +48,9 @@
 
         <ImageView
             android:id="@+id/alphabetSortTick"
-            android:layout_width="35dp"
+            android:layout_width="25dp"
             android:visibility="gone"
             android:src="@drawable/check"
-            android:layout_height="35dp"/>
+            android:layout_height="25dp"/>
     </LinearLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

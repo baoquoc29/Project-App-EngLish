@@ -1,11 +1,10 @@
-package com.example.testaudioenglish.View;
+package com.example.testaudioenglish.Activity;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Window;
@@ -16,13 +15,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.testaudioenglish.Model.EmailSendModel;
 import com.example.testaudioenglish.R;
 import com.example.testaudioenglish.databinding.LoginActivityBinding;
-import com.example.testaudioenglish.viewmodel.HomeFragmentViewModel;
 import com.example.testaudioenglish.viewmodel.LoginViewModel;
 
 public class LoginActivity extends AppCompatActivity {

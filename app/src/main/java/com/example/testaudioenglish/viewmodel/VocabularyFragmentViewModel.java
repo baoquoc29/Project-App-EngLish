@@ -27,6 +27,9 @@ public class VocabularyFragmentViewModel extends AndroidViewModel {
         allFlashCards = repository.getFlashCardsByUsername(username);
         return allFlashCards;
     }
+    public LiveData<Long> getCount(long id){
+        return repository.getCount(id);
+    }
     public LiveData<List<TopicFlashCardEntity>> getFlashCardsByTitle(String title) {
         return repository.getFlashCardsByTitle(title);
     }

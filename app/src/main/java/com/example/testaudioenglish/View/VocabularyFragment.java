@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +20,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.testaudioenglish.Activity.AddFlashCardActivity;
+import com.example.testaudioenglish.Activity.LearningActivity;
 import com.example.testaudioenglish.OnItemClickListener;
 import com.example.testaudioenglish.R;
 import com.example.testaudioenglish.Adapter.TopicFlashCardAdapter;
@@ -27,7 +31,6 @@ import com.example.testaudioenglish.databinding.FragmentVocabularyBinding;
 import com.example.testaudioenglish.viewmodel.VocabularyFragmentViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class VocabularyFragment extends Fragment implements OnItemClickListener {
     private VocabularyFragmentViewModel vocabularyFragmentViewModel;
@@ -70,10 +73,19 @@ public class VocabularyFragment extends Fragment implements OnItemClickListener 
             if (shouldNavigate != null && shouldNavigate) {
                 Intent intent = new Intent(getActivity(), LearningActivity.class);
                 intent.putExtra("value", flashCardList.get(position).getId());
-                startActivity(intent);
+                vocabularyFragmentViewModel.getCount(flashCardList.get(position).getId()).observe(getViewLifecycleOwner(), new Observer<Long>() {
+                    @Override
+                    public void onChanged(@Nullable Long count) {
+                        if (count != null) {
+                            intent.putExtra("totalWord", String.valueOf(count));
+                            intent.putExtra("title", flashCardList.get(position).getTitle());
+                            intent.putExtra("name", flashCardList.get(position).getUsername());
+                            startActivity(intent);
+                        }
+                    }
+                });
             }
         });
-
         search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

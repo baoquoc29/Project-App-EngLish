@@ -18,10 +18,11 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".View.LearningActivity">
+            tools:context=".Activity.LearningActivity">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
+                app:title="Luyện tập"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/white"
@@ -49,7 +50,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="@string/test"
+                    android:text="@{viewModel.title}"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -70,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="10dp"
-                    android:text="@string/bao_quoc"
+                    android:text="@{viewModel.username}"
                     android:textSize="17sp" />
 
                 <TextView
@@ -79,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="20dp"
-                    android:text="@string/count_word"
+                    android:text="@{viewModel.countWord}"
                     android:textSize="17sp" />
             </LinearLayout>
 
@@ -183,6 +184,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
+                        android:onClick="@{() -> viewModel.onClickNavigateToPairingCard()}"
                         android:gravity="center_vertical">
 
                         <ImageView

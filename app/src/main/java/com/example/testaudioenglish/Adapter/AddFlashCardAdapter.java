@@ -37,43 +37,7 @@ public class AddFlashCardAdapter extends RecyclerView.Adapter<AddFlashCardAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         WordFlashCard flashCard = flashCardList.get(position);
-
         holder.bind(flashCard);
-
-        // Lắng nghe sự thay đổi trong EditTexts và cập nhật flashCard tương ứng
-        holder.termInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // Do nothing
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                flashCard.setEngVer(charSequence.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                // Do nothing
-            }
-        });
-
-        holder.definitionInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // Do nothing
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                flashCard.setVietVer(charSequence.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                // Do nothing
-            }
-        });
     }
 
     @Override
@@ -84,6 +48,8 @@ public class AddFlashCardAdapter extends RecyclerView.Adapter<AddFlashCardAdapte
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public EditText termInput;
         public EditText definitionInput;
+        private TextWatcher termTextWatcher;
+        private TextWatcher definitionTextWatcher;
 
         public ViewHolder(View view) {
             super(view);
@@ -92,8 +58,56 @@ public class AddFlashCardAdapter extends RecyclerView.Adapter<AddFlashCardAdapte
         }
 
         public void bind(WordFlashCard flashCard) {
+            // Remove existing TextWatchers if they exist
+            if (termTextWatcher != null) {
+                termInput.removeTextChangedListener(termTextWatcher);
+            }
+            if (definitionTextWatcher != null) {
+                definitionInput.removeTextChangedListener(definitionTextWatcher);
+            }
+
+            // Set initial text
             termInput.setText(flashCard.getEngVer());
             definitionInput.setText(flashCard.getVietVer());
+
+            // Create new TextWatchers
+            termTextWatcher = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    // Do nothing
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    flashCard.setEngVer(charSequence.toString());
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    // Do nothing
+                }
+            };
+
+            definitionTextWatcher = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    // Do nothing
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    flashCard.setVietVer(charSequence.toString());
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    // Do nothing
+                }
+            };
+
+            // Add the new TextWatchers
+            termInput.addTextChangedListener(termTextWatcher);
+            definitionInput.addTextChangedListener(definitionTextWatcher);
         }
     }
 }
