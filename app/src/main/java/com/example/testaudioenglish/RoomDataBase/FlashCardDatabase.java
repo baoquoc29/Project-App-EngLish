@@ -14,7 +14,7 @@ import com.example.testaudioenglish.DAO.TopicFlashCardDao;
 import com.example.testaudioenglish.Entity.FlashCardEntity;
 import com.example.testaudioenglish.Entity.TopicFlashCardEntity;
 
-@Database(entities = {FlashCardEntity.class, TopicFlashCardEntity.class}, version = 3)
+@Database(entities = {FlashCardEntity.class, TopicFlashCardEntity.class}, version = 4)
 public abstract class FlashCardDatabase extends RoomDatabase {
     public abstract FlashCardDao flashCardDao();
     public abstract TopicFlashCardDao topicFlashCardDao();
@@ -29,12 +29,12 @@ public abstract class FlashCardDatabase extends RoomDatabase {
                                     FlashCardDatabase.class, "flashcard_database")
                             .addCallback(new RoomDatabase.Callback() {
                                 @Override
-                                public void onOpen(@androidx.annotation.NonNull SupportSQLiteDatabase db) {
+                                public void onOpen(@NonNull SupportSQLiteDatabase db) {
                                     super.onOpen(db);
                                     db.execSQL("PRAGMA foreign_keys=ON;");
                                 }
                             })
-                            .addMigrations(MIGRATION_2_3) // Add migration from 2 to 3
+                            .addMigrations(MIGRATION_3_4) // Add migration from 3 to 4
                             .build();
                 }
             }
@@ -42,11 +42,11 @@ public abstract class FlashCardDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    // Migration from version 2 to version 3
-    private static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+    // Migration from version 3 to version 4
+    private static final Migration MIGRATION_3_4 = new Migration(3, 4) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-            database.execSQL("ALTER TABLE FlashCardEntity ADD COLUMN Tick INTEGER DEFAULT 0 NOT NULL");
+            database.execSQL("ALTER TABLE FlashCardEntity ADD COLUMN `Check` INTEGER DEFAULT 0 NOT NULL");
         }
     };
 }

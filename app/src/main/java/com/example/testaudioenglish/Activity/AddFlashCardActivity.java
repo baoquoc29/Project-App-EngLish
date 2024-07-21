@@ -87,7 +87,12 @@ public class AddFlashCardActivity extends AppCompatActivity {
         checkFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                importToDatabase();
+                if(viewModel.getFlashCardList().getValue().size() < 2){
+                    Toast.makeText(AddFlashCardActivity.this, "Vui lòng nhập trên 2 thuật ngữ", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    importToDatabase();
+                }
             }
         });
     }

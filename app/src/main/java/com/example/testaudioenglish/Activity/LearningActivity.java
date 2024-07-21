@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,6 +55,8 @@ public class LearningActivity extends AppCompatActivity implements SortClicked {
     private String totalWord;
     private String title;
     private Intent intent;
+    private TextView levelFinish;
+    private int index;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +77,7 @@ public class LearningActivity extends AppCompatActivity implements SortClicked {
 
         viewPager = binding.viewPager;
         circleIndicator = binding.circleIndicator;
-
+        levelFinish = binding.levelFinish;
         mapping();
         setRecyleViewAndViewPager();
     }
@@ -94,6 +97,22 @@ public class LearningActivity extends AppCompatActivity implements SortClicked {
 
         }
     }
+    public void setTextLevelFinish(long idTopic) {
+        learningViewModel.getCountCheck(idTopic).observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                index = integer;
+                if (index == 0) {
+                    levelFinish.setText("Chưa luyện tập học phần này");
+                } else {
+                    double percentFinish = ((double) index / list.size()) * 100;
+                    levelFinish.setText("Đã ghi nhớ " + String.format("%.0f", percentFinish) + "%");
+
+                }
+            }
+        });
+    }
+
 
     private void setRecyleViewAndViewPager() {
         learningViewModel.getWordByIdTopic(id).observe(this, new Observer<List<FlashCardEntity>>() {
@@ -108,6 +127,7 @@ public class LearningActivity extends AppCompatActivity implements SortClicked {
                     circleIndicator.setViewPager(viewPager);
                     wordInTopicAdapter = new WordInTopicAdapter(listRecyleView, learningViewModel);
                     recyclerViewInTopic.setAdapter(wordInTopicAdapter);
+                    setTextLevelFinish(id);
                 } else {
                     Toast.makeText(LearningActivity.this, "No data available", Toast.LENGTH_SHORT).show();
                 }
@@ -115,12 +135,21 @@ public class LearningActivity extends AppCompatActivity implements SortClicked {
         });
         sortClicked();
         onClickToPairingCard(); // Gọi phương thức để xử lý chuyển Fragment
+        onClickToMemoryCard();
+        onClickToSwitchToMultiple();
     }
 
     private void sortClicked() {
         learningViewModel.getSortClicked().observe(this, clicked -> {
             if (clicked) {
                 bottomDialog();
+            }
+        });
+    }
+    private void onClickToMemoryCard(){
+        learningViewModel.getNavigateToMemoryCard().observe(this,clicked ->{
+            if(clicked){
+                switchMemoryCard();
             }
         });
     }
@@ -135,17 +164,34 @@ public class LearningActivity extends AppCompatActivity implements SortClicked {
     private void onClickToPairingCard() {
         learningViewModel.getNavigateToPairingCard().observe(this, clicked -> {
             if (clicked) {
-                switchToNewFragment(); // Gọi phương thức để chuyển Fragment khi cần thiết
+                switchPairingCard();
+            }
+        });
+    }
+    private void onClickToSwitchToMultiple(){
+        learningViewModel.getNavigateToMultipleChoice().observe(this,clicked ->{
+            if(clicked){
+                switchMultipleChoice();
             }
         });
     }
 
-    private void switchToNewFragment() {
-//        CardPairingFragment fragment = new CardPairingFragment();
-//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//        fragmentTransaction.replace(R.id.container,fragment).commit();
+    private void switchPairingCard() {
         Intent intent = new Intent(this, ExamActivity.class);
         intent.putExtra("idTopic",id);
+        intent.putExtra("game","Pairing");
+        startActivity(intent);
+    }
+    private void switchMemoryCard() {
+        Intent intent = new Intent(this, ExamActivity.class);
+        intent.putExtra("idTopic",id);
+        intent.putExtra("game","Memory");
+        startActivity(intent);
+    }
+    private void switchMultipleChoice() {
+        Intent intent = new Intent(this, ExamActivity.class);
+        intent.putExtra("idTopic",id);
+        intent.putExtra("game","Choice");
         startActivity(intent);
     }
 

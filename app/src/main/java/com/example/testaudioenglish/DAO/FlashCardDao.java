@@ -6,7 +6,6 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.example.testaudioenglish.Entity.FlashCardEntity;
-import com.example.testaudioenglish.Entity.TopicFlashCardEntity;
 
 import java.util.List;
 
@@ -26,4 +25,19 @@ public interface FlashCardDao {
     void updateTickEmpty(long idTopic,long idWord);
     @Query("Select id from FlashCardEntity where EnglishWord = :engVer ")
     int idWord(String engVer);
+    @Query("Select count(*) from FlashCardEntity where idTopic =:idTopic and `Check` = 1")
+    int countCheck(long idTopic);
+    @Query("Select count(*) from FlashCardEntity where idTopic =:idTopic and `Check` = 0")
+    int countCheckZero(long idTopic);
+    @Query("UPDATE FlashCardEntity SET `Check` = 1 WHERE idTopic = :idTopic AND id = :idWord")
+    void updateCheck(long idTopic, long idWord);
+
+    @Query("Select * from FLASHCARDENTITY where idTopic = :idTopic and `Check` = 0")
+    LiveData<List<FlashCardEntity>> getAllFlashCardByTopicAndCheck(long idTopic);
+
+    @Query("UPDATE FlashCardEntity SET `Check` = 0 WHERE idTopic = :idTopic")
+    void updateResetCheck(long idTopic);
+
+    @Query("SELECT VietnameseWord FROM FLASHCARDENTITY WHERE EnglishWord !=:engWord ORDER BY RANDOM() LIMIT 3  ")
+    List<String> listRandomAnswers(String engWord);
 }

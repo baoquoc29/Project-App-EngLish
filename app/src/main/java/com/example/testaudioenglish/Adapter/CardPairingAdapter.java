@@ -13,10 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.testaudioenglish.CongratulationClicked;
 import com.example.testaudioenglish.Entity.FlashCardEntity;
 import com.example.testaudioenglish.R;
 import com.example.testaudioenglish.viewmodel.CardPairingViewModel;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -30,11 +32,13 @@ public class CardPairingAdapter extends RecyclerView.Adapter<CardPairingAdapter.
     private final CardPairingViewModel cardPairingViewModel;
     private int count = 0;
     public boolean previous = false;
-
-    public CardPairingAdapter(List<FlashCardEntity> data, CardPairingViewModel cardPairingViewModel) {
+    public CongratulationClicked clicked;
+    public CardPairingAdapter(List<FlashCardEntity> data, CardPairingViewModel cardPairingViewModel,CongratulationClicked clicked) {
         this.data = data;
+        Collections.shuffle(data);
         this.usedRandomPositions = new HashMap<>();
         this.cardPairingViewModel = cardPairingViewModel;
+        this.clicked = clicked;
     }
 
     @NonNull
@@ -65,24 +69,33 @@ public class CardPairingAdapter extends RecyclerView.Adapter<CardPairingAdapter.
         holder.vietVer.setText(data.get(randomPosition).getVietWord());
 
         holder.engVer.setOnClickListener(view -> {
-            holder.engCard.setCardBackgroundColor(Color.GRAY);
+            count++;
             selectedEngCard = item;
             if (selectedEngCard != null) {
                 Toast.makeText(view.getContext(), "Selected English: " + selectedEngCard.getEnglishWord(), Toast.LENGTH_SHORT).show();
-                count++;
-                checkForMatch(holder);
+                if (count == 2) {
+                    checkForMatch(holder);
+                }
+            }
+            if(data.size() == 0){
+                clicked.onCongratulationClicked();
             }
         });
 
         holder.vietVer.setOnClickListener(view -> {
+            count++;
             previous = true;
             int index = usedRandomPositions.get(position);
-            holder.vietCard.setCardBackgroundColor(Color.GRAY);
+
             selectedVietCard = data.get(index);
             if (selectedVietCard != null) {
                 Toast.makeText(view.getContext(), "Selected Vietnamese: " + selectedVietCard.getVietWord(), Toast.LENGTH_SHORT).show();
-                count++;
-                checkForMatch(holder);
+                if (count == 2) {
+                    checkForMatch(holder);
+                }
+            }
+            if(data.size() == 0){
+                clicked.onCongratulationClicked();
             }
         });
     }
@@ -93,12 +106,22 @@ public class CardPairingAdapter extends RecyclerView.Adapter<CardPairingAdapter.
                 removeItem(selectedEngCard);
                 removeItem(selectedVietCard);
                 Toast.makeText(holder.itemView.getContext(), "Match found!", Toast.LENGTH_SHORT).show();
-            } else {
+            }
+            else {
                 Toast.makeText(holder.itemView.getContext(), "Incorrect!", Toast.LENGTH_SHORT).show();
                 resetCardColors(holder);
             }
             resetSelections();
         }
+        else if(selectedVietCard != null && selectedEngCard == null){
+            Toast.makeText(holder.itemView.getContext(), "Incorrect!", Toast.LENGTH_SHORT).show();
+            resetCardColors(holder);
+        }
+        else if(selectedVietCard == null && selectedEngCard != null){
+            Toast.makeText(holder.itemView.getContext(), "Incorrect!", Toast.LENGTH_SHORT).show();
+            resetCardColors(holder);
+        }
+        count = 0;
     }
 
     private void resetSelections() {
@@ -116,8 +139,7 @@ public class CardPairingAdapter extends RecyclerView.Adapter<CardPairingAdapter.
         int position = data.indexOf(cardEntity);
         if (position != -1) {
             data.remove(position);
-            notifyItemRemoved(position);
-            notifyItemRangeChanged(position, data.size());
+            notifyDataSetChanged();
             usedRandomPositions.clear();
         }
     }
@@ -126,6 +148,7 @@ public class CardPairingAdapter extends RecyclerView.Adapter<CardPairingAdapter.
         holder.engCard.setCardBackgroundColor(Color.WHITE);
         holder.vietCard.setCardBackgroundColor(Color.WHITE);
     }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView engVer;

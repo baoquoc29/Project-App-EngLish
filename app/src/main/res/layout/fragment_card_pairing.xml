@@ -11,6 +11,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:id="@+id/container"
         android:layout_height="match_parent"
         tools:context=".View.CardPairingFragment">
 
@@ -35,12 +36,10 @@
                 android:layout_marginEnd="16dp"
                 tools:visibility="gone" />
         </androidx.appcompat.widget.Toolbar>
-
         <LinearLayout
             android:id="@+id/ready"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"
             android:orientation="vertical"
             android:padding="15dp"
             android:gravity="center"
@@ -56,6 +55,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
+                android:id="@+id/abc"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:text="Ghép tất cả các thuật ngữ theo định nghĩa của chúng"
@@ -70,7 +70,24 @@
                 android:textSize="16sp"
                 android:onClick="@{() -> viewModel.onButtonClick()}"
                 android:backgroundTint="#29B6F6" />
+
         </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtCongratulations"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="Xin chúc mừng bạn đã hoàn thành với thời gian 200s"
+            android:textColor="#42A5F5"
+            android:textSize="20sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.5"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="175dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -82,6 +99,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:visibility="gone"
             tools:visibility="gone" />
+
+        <!-- KonfettiView added here -->
+        <nl.dionsegijn.konfetti.xml.KonfettiView
+            android:id="@+id/konfettiView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
