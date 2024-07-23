@@ -21,5 +21,7 @@ public interface TopicFlashCardDao {
     @Query("SELECT * FROM TopicFlashCardEntity WHERE title LIKE '%' || :title || '%'")
     LiveData<List<TopicFlashCardEntity>> getFiller(String title);
 
+    @Query("SELECT title from TOPICFLASHCARDENTITY where id =:idTopic")
+    LiveData<String> getTitle(long idTopic);
 
 }

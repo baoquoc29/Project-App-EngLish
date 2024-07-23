@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.testaudioenglish.Adapter.MemoryCardAdapter;
 import com.example.testaudioenglish.Entity.FlashCardEntity;
@@ -55,9 +56,9 @@ public class MemoryCardFragment extends Fragment {
     private TextView notStudy;
     private TextView isStudy;
     private TextView titleEnding;
-    private LinearLayout finish;
-    private int index;
     private KonfettiView konfettiView;
+    private boolean isMemoryCardAgainSetUp = false;
+    private boolean isMemoryCardSetUp = false;
     public MemoryCardFragment() {
         // Required empty public constructor
     }
@@ -85,51 +86,79 @@ public class MemoryCardFragment extends Fragment {
         binding.setViewModel(memoryCardViewModel);
         binding.setLifecycleOwner(this);
 
-        recyclerView = binding.memoryRecyclerView;
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        konfettiView = binding.konfettiView;
-        memoryCardAdapter = new MemoryCardAdapter(new ArrayList<>(), getContext(),memoryCardViewModel);
-        recyclerView.setAdapter(memoryCardAdapter);
+        initializeViews(binding);
+        initializeRecyclerView(binding);
+        setUpObservers();
+
+        skip.setOnClickListener(view -> showSkip());
+        binding.nextButton.setOnClickListener(v -> showNextItem());
+
+        setUpStudy();
+        setUpMemoryCard();
+
+        return binding.getRoot();
+    }
+
+    private void initializeViews(FragmentMemoryCardBinding binding) {
         itemTotal = binding.item;
         linearMemory = binding.layoutCard;
         linearFinish = binding.layoutFinish;
         skip = binding.previousItem;
         pass = binding.pass;
         notPass = binding.notPass;
-        skipped = binding.skipped;
         notStudy = binding.notStudy;
         isStudy = binding.isStudy;
         titleEnding = binding.titleEnding;
-        finish = binding.finish;
-        skip.setOnClickListener(view -> showSkip());
-        binding.nextButton.setOnClickListener(v -> showNextItem());
+        konfettiView = binding.konfettiView;
+    }
 
+    private void initializeRecyclerView(FragmentMemoryCardBinding binding) {
+        recyclerView = binding.memoryRecyclerView;
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        memoryCardAdapter = new MemoryCardAdapter(new ArrayList<>(), getContext(), memoryCardViewModel);
+        recyclerView.setAdapter(memoryCardAdapter);
+    }
+
+    private void setUpObservers() {
         memoryCardViewModel.getClickToClose().observe(getViewLifecycleOwner(), clicked -> {
             if (clicked) {
                 requireActivity().onBackPressed();
             }
         });
 
-        // Initial call to set up study text
-        setUpStudy();
-        setUpClickReset();
-        setUpMemoryCard();
-        return binding.getRoot();
-    }
+        memoryCardViewModel.getClickToAgain().observe(getViewLifecycleOwner(), clicked -> {
+            if (clicked) {
+                getActivity().onBackPressed();
+                konfettiView.setVisibility(View.GONE);
+            }
+        });
 
-    private void setVisible() {
-        if (list.isEmpty()) {
-            titleEnding.setText("Bạn đã hoàn thành tất cả các thuật ngữ! Xin chúc mừng");
+        memoryCardViewModel.getClickToReset().observe(getViewLifecycleOwner(), clicked -> {
+            if (clicked) {
+                memoryCardViewModel.resetCheck(idTopic);
+                resetExam();
+                setToZero();
+                setUpMemoryCard();
+                konfettiView.setVisibility(View.GONE);
+            }
+        });
+    }
+    public void setToZero(){
+        checkFinish = 0;
+        checkError = 0;
+        currentPosition =  0;
+    }
+    private void setVisible(boolean finished) {
+        if (finished) {
+            titleEnding.setText(R.string.completed_all_terms);
         } else if (checkError > 0) {
-            titleEnding.setText("Tiếp tục luyện tập thêm nhé");
+            titleEnding.setText(R.string.continue_practicing);
         }
         linearMemory.setVisibility(View.GONE);
         linearFinish.setVisibility(View.VISIBLE);
-
-        Log.d("Debug", "Visible " + linearFinish.getVisibility());
     }
 
-    private void setExamAgain() {
+    private void resetExam() {
         linearFinish.setVisibility(View.GONE);
         linearMemory.setVisibility(View.VISIBLE);
     }
@@ -138,7 +167,6 @@ public class MemoryCardFragment extends Fragment {
         if (itemTotal != null) {
             String text = (currentPosition + 1) + " / " + list.size();
             itemTotal.setText(text);
-            Log.d("Debug", "ItemTotal updated to: " + text);
         } else {
             Log.e("Error", "itemTotal is null");
         }
@@ -147,50 +175,61 @@ public class MemoryCardFragment extends Fragment {
     private void setCountCheck() {
         memoryCardViewModel.count(idTopic).observe(getViewLifecycleOwner(), integer -> {
             if (integer.equals(list.size())) {
-                setVisible();
+                setVisible(true);
             }
         });
     }
 
     private void setUpMemoryCard() {
+        if(isMemoryCardSetUp){
+            return;
+        }
+        isMemoryCardSetUp = true;
         memoryCardViewModel.getListByTopic(idTopic).observe(getViewLifecycleOwner(), flashCardEntities -> {
             list.clear();
             list.addAll(flashCardEntities);
             setCountCheck();
-            Log.d("Debug", "List size: " + list.size());
             if (!list.isEmpty()) {
                 setUpSingleCard();
                 setTextCountItem();
-
             } else {
-                setVisible();
+                setVisible(true);
                 showFinish();
             }
         });
     }
+//    private void setUpMemoryCardAgain() {
+//        if (isMemoryCardAgainSetUp) {
+//            return; // Nếu đã gọi trước đó, không làm gì thêm
+//        }
+//        isMemoryCardAgainSetUp = true;
+//        if (checkFinish == list.size()) {
+//            Toast.makeText(getContext(), "Finish", Toast.LENGTH_SHORT).show();
+//            return;
+//        } else {
+//            setToZero();
+//            resetExam();
+//            memoryCardViewModel.getListAgainByTopic(idTopic).observe(getViewLifecycleOwner(), flashCardEntities -> {
+//                Log.d("Debug402", "The List Call");
+//                list.clear();
+//                list.addAll(flashCardEntities);
+//                if (!list.isEmpty()) {
+//                    setCountCheck();
+//                    setUpSingleCard();
+//                    setTextCountItem();
+//                } else {
+//                    setVisible(true);
+//                    showFinish();
+//                }
+//            });
+//        }
+//    }
+
     private void setUpSingleCard() {
         if (!list.isEmpty() && currentPosition < list.size()) {
             List<FlashCardEntity> singleItemList = Collections.singletonList(list.get(currentPosition));
             memoryCardAdapter.updateData(singleItemList);
         }
-    }
-
-    private void setUpClickReset() {
-        memoryCardViewModel.getClickToReset().observe(getViewLifecycleOwner(), clicked -> {
-            if (clicked) {
-                memoryCardViewModel.resetCheck(idTopic);
-                setExamAgain();
-                setUpMemoryCard();
-                setUpToZero();
-                konfettiView.setVisibility(View.GONE);
-            }
-        });
-    }
-
-    private void setUpToZero() {
-        currentPosition = 0;
-        checkError = 0;
-        checkFinish = 0;
     }
 
     private void setUpStudy() {
@@ -207,7 +246,7 @@ public class MemoryCardFragment extends Fragment {
             checkError++;
             currentPosition++;
             if (currentPosition >= list.size()) {
-                setVisible();
+                setVisible(false);
                 showFinish();
             } else {
                 updateUI();
@@ -217,11 +256,11 @@ public class MemoryCardFragment extends Fragment {
 
     private void showNextItem() {
         if (currentPosition < list.size()) {
-            checkFinish++;
             updateCheck(idTopic, list.get(currentPosition).getId());
+            checkFinish++;
             currentPosition++;
             if (currentPosition >= list.size()) {
-                setVisible();
+                setVisible(false);
                 showFinish();
             } else {
                 updateUI();
@@ -230,7 +269,6 @@ public class MemoryCardFragment extends Fragment {
     }
 
     private void updateUI() {
-        Log.d("Debug", "Current Position: " + currentPosition);
         setUpSingleCard();
         setTextCountItem();
         setUpStudy();
@@ -239,12 +277,10 @@ public class MemoryCardFragment extends Fragment {
     private void showFinish() {
         Drawable drawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_launcher_background);
         Shape.DrawableShape drawableShape = new Shape.DrawableShape(drawable, true, true);
-        pass.setText("Biết: " + checkFinish);
-        notPass.setText("Đang học: " + checkError);
-        skipped.setText("Còn lại: " + (list.size() - (checkError + checkFinish)));
-        // Ensure KonfettiView is visible
+        pass.setText(getString(R.string.known) + " " + checkFinish);
+        notPass.setText(getString(R.string.studying ) + " " +  checkError );
+
         konfettiView.setVisibility(View.VISIBLE);
-        // Setup Konfetti
         EmitterConfig emitterConfig = new Emitter(300, TimeUnit.MILLISECONDS).max(300);
         konfettiView.start(new PartyFactory(emitterConfig)
                 .shapes(Shape.Circle.INSTANCE, Shape.Square.INSTANCE, drawableShape)
@@ -254,7 +290,6 @@ public class MemoryCardFragment extends Fragment {
                 .timeToLive(10000)
                 .fadeOutEnabled(true)
                 .build());
-
     }
 
     private void updateCheck(long idTopic, long idWord) {

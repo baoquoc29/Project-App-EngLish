@@ -44,6 +44,9 @@ public class TopicFlashCardRepository {
             return -1;
         }
     }
+    public LiveData<String> getTitleById(long id) {
+        return topicFlashCardDao.getTitle(id);
+    }
     public LiveData<Long> getCount(long id){
         return topicFlashCardDao.getCountWordInTopic(id);
     }

@@ -24,7 +24,7 @@
                 android:id="@+id/toolbar"
                 app:title="Luyện tập"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="50dp"
                 android:background="@color/white"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
@@ -168,6 +168,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
+                        android:onClick="@{() -> viewModel.switchToExam()}"
                         android:gravity="center_vertical">
 
                         <ImageView

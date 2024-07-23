@@ -26,6 +26,7 @@ import com.example.testaudioenglish.Entity.FlashCardEntity;
 import com.example.testaudioenglish.R;
 import com.example.testaudioenglish.SortClicked;
 import com.example.testaudioenglish.View.CardPairingFragment;
+import com.example.testaudioenglish.View.VocabularyFragment;
 import com.example.testaudioenglish.databinding.ActivityLearningBinding;
 import com.example.testaudioenglish.viewmodel.LearningViewModel;
 
@@ -72,7 +73,8 @@ public class LearningActivity extends AppCompatActivity implements SortClicked {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle("");
+            getSupportActionBar().setTitle("Luyện tập");
+            
         }
 
         viewPager = binding.viewPager;
@@ -137,6 +139,7 @@ public class LearningActivity extends AppCompatActivity implements SortClicked {
         onClickToPairingCard(); // Gọi phương thức để xử lý chuyển Fragment
         onClickToMemoryCard();
         onClickToSwitchToMultiple();
+        onClickToSwitchToExam();
     }
 
     private void sortClicked() {
@@ -175,24 +178,40 @@ public class LearningActivity extends AppCompatActivity implements SortClicked {
             }
         });
     }
-
+    private void onClickToSwitchToExam(){
+        learningViewModel.getNavigateToExam().observe(this,clicked ->{
+            if(clicked){
+                switchExam();
+            }
+        });
+    }
+    private void switchExam() {
+        Intent intent = new Intent(this, ExamActivity.class);
+        intent.putExtra("idTopic", id);
+        intent.putExtra("game", "Exam");
+        startActivity(intent);
+    }
     private void switchPairingCard() {
         Intent intent = new Intent(this, ExamActivity.class);
-        intent.putExtra("idTopic",id);
-        intent.putExtra("game","Pairing");
+        intent.putExtra("idTopic", id);
+        intent.putExtra("game", "Pairing");
         startActivity(intent);
     }
+
     private void switchMemoryCard() {
         Intent intent = new Intent(this, ExamActivity.class);
-        intent.putExtra("idTopic",id);
-        intent.putExtra("game","Memory");
+        intent.putExtra("idTopic", id);
+        intent.putExtra("game", "Memory");
         startActivity(intent);
+
     }
+
     private void switchMultipleChoice() {
         Intent intent = new Intent(this, ExamActivity.class);
-        intent.putExtra("idTopic",id);
-        intent.putExtra("game","Choice");
+        intent.putExtra("idTopic", id);
+        intent.putExtra("game", "Choice");
         startActivity(intent);
+
     }
 
     @Override
@@ -203,6 +222,10 @@ public class LearningActivity extends AppCompatActivity implements SortClicked {
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
     @Override
     public void onNatureSortSelected() {
         learningViewModel.getWordByIdTopic(id).observe(this, listNature -> {

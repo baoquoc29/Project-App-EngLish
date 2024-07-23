@@ -24,14 +24,26 @@ public class LearningViewModel extends AndroidViewModel {
     private MutableLiveData<Boolean> navigateToPairingCard = new MutableLiveData<>();
     private MutableLiveData<Boolean> navigateToMemoryCard = new MutableLiveData<>();
     private MutableLiveData<Boolean> navigateToMultipleChoice = new MutableLiveData<>();
+    private MutableLiveData<Boolean> navigateToExam = new MutableLiveData<>();
     public MutableLiveData<Boolean> getSortClicked() {
         return sortClicked;
     }
     private MutableLiveData<Integer> countCheck = new MutableLiveData<>();
+
+    public MutableLiveData<Boolean> getNavigateToExam() {
+        return navigateToExam;
+    }
+
+    public void setNavigateToExam(MutableLiveData<Boolean> navigateToExam) {
+        this.navigateToExam = navigateToExam;
+    }
+
     public void setSortClicked(MutableLiveData<Boolean> sortClicked) {
         this.sortClicked = sortClicked;
     }
-
+    public void switchToExam(){
+        navigateToExam.setValue(true);
+    }
     public MutableLiveData<Boolean> getNavigateToMultipleChoice() {
         return navigateToMultipleChoice;
     }

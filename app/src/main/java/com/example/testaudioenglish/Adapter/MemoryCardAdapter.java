@@ -128,6 +128,6 @@ public class MemoryCardAdapter extends RecyclerView.Adapter<MemoryCardAdapter.Vi
 
     public void updateData(List<FlashCardEntity> newItems) {
         dataSet = newItems;
-        notifyDataSetChanged();
+       notifyDataSetChanged();
     }
 }

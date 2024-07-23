@@ -47,4 +47,9 @@
     <string name="title_incorrect">Đừng nản chí hãy tiếp tục</string>
     <string name="test_multiple">Thien duong</string>
     <string name="continue_multiple">Tiếp tục</string>
+    <string name="known">"Đã biết! "</string>
+    <string name="studying">Đang học!</string>
+    <string name="remaining">Bỏ qua!</string>
+    <string name="completed_all_terms">Bạn đã hoàn thành tất cả các thuật ngữ! Xin chúc mừng</string>
+    <string name="continue_practicing">Tiếp tục luyện tập thêm nhé</string>
 </resources>
