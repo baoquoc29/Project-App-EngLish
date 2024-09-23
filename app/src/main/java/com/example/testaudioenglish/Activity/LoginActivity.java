@@ -5,12 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -70,18 +74,47 @@ public class LoginActivity extends AppCompatActivity {
                 finish(); // Close the current activity
             }
         });
+
         loginViewModel.navigateToLogin.observe(this, booleanEvent -> {
             Boolean shouldNavigate = booleanEvent.getContentIfNotHandled();
             if (shouldNavigate != null && shouldNavigate) {
-                String data = loginViewModel.username.getValue();
-                setDataToSharedPreferences(data);
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
+                showLoadingDialog();
+
+                new Handler().postDelayed(() -> {
+                    dismissLoadingDialog();
+                    String data = loginViewModel.username.getValue();
+                    setDataToSharedPreferences(data);
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }, 300);
             }
         });
 
     }
 
+    public void showLoadingDialog() {
+        if (dialog == null) {
+            dialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(LayoutInflater.from(this).inflate(R.layout.activity_splash, null));
+            dialog.setCancelable(false);
+
+            ProgressBar progressBar = dialog.findViewById(R.id.loadingProgressBar);
+            RotateAnimation rotate = new RotateAnimation(0, 360,
+                    Animation.RELATIVE_TO_SELF, 0.5f,
+                    Animation.RELATIVE_TO_SELF, 0.5f);
+            rotate.setDuration(1000);
+            rotate.setRepeatCount(Animation.INFINITE);
+            progressBar.startAnimation(rotate);
+        }
+        dialog.show();
+    }
+
+    public void dismissLoadingDialog() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
     public void loadingDialog() {
         dialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

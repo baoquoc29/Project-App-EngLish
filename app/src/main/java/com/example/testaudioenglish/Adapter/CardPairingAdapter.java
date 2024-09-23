@@ -13,8 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.testaudioenglish.CongratulationClicked;
 import com.example.testaudioenglish.Entity.FlashCardEntity;
+import com.example.testaudioenglish.InterfaceAdapter.CongratulationClicked;
 import com.example.testaudioenglish.R;
 import com.example.testaudioenglish.viewmodel.CardPairingViewModel;
 

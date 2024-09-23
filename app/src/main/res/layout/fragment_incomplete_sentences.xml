@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.testaudioenglish.viewmodel.ExamAnyFragmentViewModel" />
+    </data>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="5dp"
+            tools:context=".Activity.ExamEachAnyPartActivity">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/sheets"
+                    android:layout_width="32dp"
+                    android:layout_height="27dp"
+                    android:contentDescription="Sheets icon"
+                    android:onClick="@{() -> viewModel.clickedToSheets()}"
+                    android:src="@drawable/sheets" />
+
+                <TextView
+                    android:id="@+id/item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:text="12/15"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp" />
+
+                <ImageView
+                    android:id="@+id/close"
+                    android:layout_width="32dp"
+                    android:onClick="@{() -> viewModel.clickToClose()}"
+                    android:layout_height="32dp"
+                    android:src="@drawable/close"
+                    android:contentDescription="Close icon" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layoutPart1"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textIsSelectable="true"
+                    android:layout_width="match_parent"
+                    android:id="@+id/questionPart5"
+                    android:text="Cau 1: "
+                    android:textSize="17sp"
+                    android:layout_height="wrap_content"></TextView>
+                <RadioGroup
+                    android:id="@+id/choicesRadioGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="16dp"
+                    android:padding="8dp">
+
+                    <RadioButton
+                        android:id="@+id/radioA"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="A" />
+
+                    <RadioButton
+                        android:id="@+id/radioB"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="B" />
+
+                    <RadioButton
+                        android:id="@+id/radioC"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="C" />
+
+                    <RadioButton
+                        android:id="@+id/radioD"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="D" />
+                </RadioGroup>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/correctAnswer"
+                android:layout_width="match_parent"
+                android:text="Đáp án đúng là: "
+                android:visibility="gone"
+                android:layout_height="wrap_content"></TextView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_marginTop="50dp"
+                android:weightSum="3"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:src="@drawable/back"
+                    android:onClick="@{() -> viewModel.clickedToBack()}"
+                    android:id="@+id/buttonBack"
+                    android:layout_height="30dp"></ImageView>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/checkButton"
+                    android:layout_width="0dp"
+                    android:text="Check"
+                    android:layout_weight="2"
+                    android:onClick="@{() -> viewModel.clickedToCheck()}"
+                    android:layout_gravity="center"
+                    android:layout_height="40dp"></androidx.appcompat.widget.AppCompatButton>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:src="@drawable/forward"
+                    android:onClick="@{() -> viewModel.clickedToForward()}"
+                    android:id="@+id/buttonForward"
+                    android:layout_height="30dp"></ImageView>
+            </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+</layout>

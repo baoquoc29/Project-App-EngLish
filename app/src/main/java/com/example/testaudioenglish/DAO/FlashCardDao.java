@@ -15,6 +15,10 @@ public interface FlashCardDao {
 
     @Insert
     long insertFlashCard(FlashCardEntity flashCard);
+
+    @Query("DELETE FROM FlashCardEntity WHERE idTopic = :idTopic")
+    void deleteAllFlashCardsByTopic(long idTopic);
+
     @Query("Select * from FLASHCARDENTITY where idTopic = :idTopic")
     LiveData<List<FlashCardEntity>> getAllFlashCardByTopic(long idTopic);
     @Query("SELECT * FROM FlashCardEntity WHERE idTopic = :idTopic ORDER BY EnglishWord ASC")
@@ -40,4 +44,10 @@ public interface FlashCardDao {
 
     @Query("SELECT VietnameseWord FROM FLASHCARDENTITY WHERE EnglishWord !=:engWord ORDER BY RANDOM() LIMIT 3  ")
     List<String> listRandomAnswers(String engWord);
+    @Query("SELECT VietnameseWord FROM FLASHCARDENTITY WHERE  idTopic =:idTopic ORDER BY RANDOM() LIMIT 1  ")
+    List<String> listRandomAnswersInATopic(long idTopic);
+    @Query("SELECT * FROM FlashCardEntity WHERE idTopic = :idTopic LIMIT :limit")
+    LiveData<List<FlashCardEntity>> getAllFlashCardLimit(long idTopic, int limit);
+
+
 }

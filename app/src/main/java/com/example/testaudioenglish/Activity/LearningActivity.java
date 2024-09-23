@@ -1,8 +1,15 @@
 package com.example.testaudioenglish.Activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -10,9 +17,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,10 +27,8 @@ import com.example.testaudioenglish.Adapter.MyBottomSheetDialog;
 import com.example.testaudioenglish.Adapter.WordAdapter;
 import com.example.testaudioenglish.Adapter.WordInTopicAdapter;
 import com.example.testaudioenglish.Entity.FlashCardEntity;
+import com.example.testaudioenglish.InterfaceAdapter.SortClicked;
 import com.example.testaudioenglish.R;
-import com.example.testaudioenglish.SortClicked;
-import com.example.testaudioenglish.View.CardPairingFragment;
-import com.example.testaudioenglish.View.VocabularyFragment;
 import com.example.testaudioenglish.databinding.ActivityLearningBinding;
 import com.example.testaudioenglish.viewmodel.LearningViewModel;
 
@@ -55,9 +57,9 @@ public class LearningActivity extends AppCompatActivity implements SortClicked {
     private String name;
     private String totalWord;
     private String title;
-    private Intent intent;
     private TextView levelFinish;
     private int index;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +67,7 @@ public class LearningActivity extends AppCompatActivity implements SortClicked {
         learningViewModel = new ViewModelProvider(this).get(LearningViewModel.class);
         binding.setViewModel(learningViewModel);
         binding.setLifecycleOwner(this);
+        Log.d("LearningActivity", "onCreate called");
 
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -73,73 +76,135 @@ public class LearningActivity extends AppCompatActivity implements SortClicked {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle("Luyện tập");
-            
         }
 
         viewPager = binding.viewPager;
         circleIndicator = binding.circleIndicator;
         levelFinish = binding.levelFinish;
         mapping();
-        setRecyleViewAndViewPager();
+        setRecycleViewAndViewPager();
     }
 
     private void mapping() {
         recyclerViewInTopic = findViewById(R.id.recyleviewWord);
         recyclerViewInTopic.setLayoutManager(new LinearLayoutManager(this));
-         intent = getIntent();
+        Intent intent = getIntent();
         if (intent != null) {
             id = intent.getLongExtra("value", -1);
             totalWord = intent.getStringExtra("totalWord");
             name = intent.getStringExtra("name");
-            title  = intent.getStringExtra("title");
+            title = intent.getStringExtra("title");
             learningViewModel.setTitle(title);
             learningViewModel.setUsername(name);
             learningViewModel.setCountWord(totalWord + " thuật ngữ");
-
         }
     }
-    public void setTextLevelFinish(long idTopic) {
-        learningViewModel.getCountCheck(idTopic).observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                index = integer;
-                if (index == 0) {
-                    levelFinish.setText("Chưa luyện tập học phần này");
-                } else {
-                    double percentFinish = ((double) index / list.size()) * 100;
-                    levelFinish.setText("Đã ghi nhớ " + String.format("%.0f", percentFinish) + "%");
 
-                }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("LearningActivity", "onResume called");
+    }
+
+    public void setTextLevelFinish(long idTopic) {
+        learningViewModel.getCountCheck(idTopic).observe(this, integer -> {
+            if (integer == 0) {
+                levelFinish.setText("Chưa luyện tập học phần này");
+            } else {
+                double percentFinish = ((double) integer / list.size()) * 100;
+                levelFinish.setText("Đã ghi nhớ " + String.format("%.0f", percentFinish) + "%");
             }
         });
     }
 
+    private void setRecycleViewAndViewPager() {
+        learningViewModel.getWordByIdTopic(id).observe(this, flashCardEntities -> {
+            if (flashCardEntities != null && !flashCardEntities.isEmpty()) {
+                list.clear();
+                list.addAll(flashCardEntities);
+                listRecyleView = flashCardEntities;
 
-    private void setRecyleViewAndViewPager() {
-        learningViewModel.getWordByIdTopic(id).observe(this, new Observer<List<FlashCardEntity>>() {
-            @Override
-            public void onChanged(List<FlashCardEntity> flashCardEntities) {
-                if (flashCardEntities != null && !flashCardEntities.isEmpty()) {
-                    list.clear();
-                    list.addAll(flashCardEntities);
-                    listRecyleView = flashCardEntities;
+                if (adapter == null) {
                     adapter = new WordAdapter(LearningActivity.this, list);
                     viewPager.setAdapter(adapter);
                     circleIndicator.setViewPager(viewPager);
+                }
+
+                if (wordInTopicAdapter == null) {
                     wordInTopicAdapter = new WordInTopicAdapter(listRecyleView, learningViewModel);
                     recyclerViewInTopic.setAdapter(wordInTopicAdapter);
-                    setTextLevelFinish(id);
                 } else {
-                    Toast.makeText(LearningActivity.this, "No data available", Toast.LENGTH_SHORT).show();
+                    wordInTopicAdapter.updateData(flashCardEntities);
                 }
+
+                setTextLevelFinish(id);
+            } else {
+                Toast.makeText(LearningActivity.this, "Danh sách trống", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
+
         sortClicked();
-        onClickToPairingCard(); // Gọi phương thức để xử lý chuyển Fragment
+        onClickToPairingCard();
         onClickToMemoryCard();
         onClickToSwitchToMultiple();
         onClickToSwitchToExam();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_details, menu);
+        return true;
+    }
+
+    private void showDeleteConfirmationDialog() {
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.deletedialoglayout, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView);
+
+        Button btnConfirm = dialogView.findViewById(R.id.btn_confirm);
+        Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
+
+        AlertDialog dialog = builder.create();
+
+        btnConfirm.setOnClickListener(v -> {
+            learningViewModel.delete(id);
+            dialog.dismiss();
+        });
+
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.delete) {
+            showDeleteConfirmationDialog();
+            return true;
+        }
+        else if(item.getItemId() == R.id.edit){
+            startAddFlashCardActivity("edit");
+            return true;
+        }
+        else if(item.getItemId() == R.id.duplicate){
+            startAddFlashCardActivity("duplicate");
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void startAddFlashCardActivity(String status) {
+        Intent intent = new Intent(this, AddFlashCardActivity.class);
+        intent.putExtra("value", id);
+        intent.putExtra("status", status);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finish();
     }
 
     private void sortClicked() {
@@ -149,10 +214,11 @@ public class LearningActivity extends AppCompatActivity implements SortClicked {
             }
         });
     }
-    private void onClickToMemoryCard(){
-        learningViewModel.getNavigateToMemoryCard().observe(this,clicked ->{
-            if(clicked){
-                switchMemoryCard();
+
+    private void onClickToMemoryCard() {
+        learningViewModel.getNavigateToMemoryCard().observe(this, clicked -> {
+            if (clicked) {
+                switchGameInLearning("Memory");
             }
         });
     }
@@ -167,65 +233,35 @@ public class LearningActivity extends AppCompatActivity implements SortClicked {
     private void onClickToPairingCard() {
         learningViewModel.getNavigateToPairingCard().observe(this, clicked -> {
             if (clicked) {
-                switchPairingCard();
+                switchGameInLearning("Pairing");
             }
         });
     }
-    private void onClickToSwitchToMultiple(){
-        learningViewModel.getNavigateToMultipleChoice().observe(this,clicked ->{
-            if(clicked){
-                switchMultipleChoice();
+
+    private void onClickToSwitchToMultiple() {
+        learningViewModel.getNavigateToMultipleChoice().observe(this, clicked -> {
+            if (clicked) {
+                switchGameInLearning("Choice");
             }
         });
     }
-    private void onClickToSwitchToExam(){
-        learningViewModel.getNavigateToExam().observe(this,clicked ->{
-            if(clicked){
-                switchExam();
+
+    private void onClickToSwitchToExam() {
+        learningViewModel.getNavigateToExam().observe(this, clicked -> {
+            if (clicked) {
+                switchGameInLearning("Exam");
             }
         });
     }
-    private void switchExam() {
+
+    public void switchGameInLearning(String game) {
         Intent intent = new Intent(this, ExamActivity.class);
         intent.putExtra("idTopic", id);
-        intent.putExtra("game", "Exam");
-        startActivity(intent);
-    }
-    private void switchPairingCard() {
-        Intent intent = new Intent(this, ExamActivity.class);
-        intent.putExtra("idTopic", id);
-        intent.putExtra("game", "Pairing");
+        intent.putExtra("game", game);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     }
 
-    private void switchMemoryCard() {
-        Intent intent = new Intent(this, ExamActivity.class);
-        intent.putExtra("idTopic", id);
-        intent.putExtra("game", "Memory");
-        startActivity(intent);
-
-    }
-
-    private void switchMultipleChoice() {
-        Intent intent = new Intent(this, ExamActivity.class);
-        intent.putExtra("idTopic", id);
-        intent.putExtra("game", "Choice");
-        startActivity(intent);
-
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        sharedPreferences.edit().clear().apply();
-
-        onBackPressed();
-        return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
     @Override
     public void onNatureSortSelected() {
         learningViewModel.getWordByIdTopic(id).observe(this, listNature -> {
@@ -253,5 +289,12 @@ public class LearningActivity extends AppCompatActivity implements SortClicked {
         if (bottomSheetDialog != null) {
             bottomSheetDialog.dismiss();
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        sharedPreferences.edit().clear().apply();
+        finish();
+        return true;
     }
 }

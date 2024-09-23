@@ -26,7 +26,16 @@ public class FlashCardAddViewModel extends AndroidViewModel {
         topicFlashCardRepository = new TopicFlashCardRepository(application);
     }
 
+    public LiveData<List<FlashCardEntity>> getWordByIdTopic(long id) {
+        return repository.getAllFlashCardByTopic(id);
+    }
 
+    public void deleteAllFlashCardsByTopic(long idTopic) {
+        repository.delete(idTopic);
+    }
+    public LiveData<String> getTitleTopic(long idTopic){
+        return topicFlashCardRepository.getTitleById(idTopic);
+    }
     public LiveData<List<WordFlashCard>> getFlashCardList() {
         return flashCardList;
     }
@@ -44,6 +53,9 @@ public class FlashCardAddViewModel extends AndroidViewModel {
             currentList.set(position, updatedFlashCard);
             flashCardList.setValue(currentList);
         }
+    }
+    public void updateStatus(long id,int status){
+        topicFlashCardRepository.updateTopicStatus(id,status);
     }
     public  long insertTopic(TopicFlashCardEntity topicFlashCardEntity){
         return topicFlashCardRepository.insert(topicFlashCardEntity);

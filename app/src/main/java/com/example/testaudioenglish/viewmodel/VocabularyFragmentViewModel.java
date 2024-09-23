@@ -30,8 +30,8 @@ public class VocabularyFragmentViewModel extends AndroidViewModel {
     public LiveData<Long> getCount(long id){
         return repository.getCount(id);
     }
-    public LiveData<List<TopicFlashCardEntity>> getFlashCardsByTitle(String title) {
-        return repository.getFlashCardsByTitle(title);
+    public LiveData<List<TopicFlashCardEntity>> getFlashCardsByTitle(String title,String username) {
+        return repository.getFlashCardsByTitle(title,username);
     }
 
     public void navigateToAdd(){

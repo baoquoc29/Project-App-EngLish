@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/layoutPartFirst"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:text="Câu 1"
+                android:id="@+id/numberQuestion"
+                android:textSize="18sp"
+                android:layout_height="wrap_content" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:id="@+id/radioGroup"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:id="@+id/radioA"
+                    android:text="A."
+                    android:textSize="18sp"
+                    android:layout_height="wrap_content" />
+
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:id="@+id/radioB"
+                    android:text="B."
+                    android:textSize="18sp"
+                    android:layout_height="wrap_content" />
+
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:id="@+id/radioC"
+                    android:text="C."
+                    android:textSize="18sp"
+                    android:layout_height="wrap_content" />
+
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:id="@+id/radioD"
+                    android:text="D."
+                    android:textSize="18sp"
+                    android:layout_height="wrap_content" />
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/resultTextView"
+                android:text="Đáp án đúng: A"
+                android:textSize="18sp"
+                android:visibility="invisible"
+                android:layout_marginTop="20dp"
+               />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

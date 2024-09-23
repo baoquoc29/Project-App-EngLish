@@ -16,7 +16,7 @@
         android:icon="@drawable/notification"
         android:title=""></item>
     <item android:id="@+id/accountNavigate"
-        android:icon="@drawable/account"
+        android:icon="@drawable/user"
         android:title=""
         ></item>
 </menu>

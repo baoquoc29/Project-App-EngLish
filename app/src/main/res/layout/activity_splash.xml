@@ -5,13 +5,47 @@
     android:background="@color/white"
     android:gravity="center">
 
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/logosplash"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WorkLish"
+        android:textSize="30sp"
+        android:textColor="#03A9F4"
+        android:textStyle="italic"
+        android:layout_below="@id/logo"
+        android:layout_marginBottom="8dp"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/slogan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Khám Phá Thế Giới Ngôn Ngữ"
+        android:textSize="18sp"
+        android:textColor="#03A9F4"
+        android:textStyle="italic"
+        android:layout_below="@id/app_name"
+        android:layout_marginBottom="35dp"
+        android:layout_centerHorizontal="true" />
+
     <ProgressBar
         android:id="@+id/loadingProgressBar"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:indeterminate="true"
-        android:layout_centerInParent="true" />
+        android:layout_below="@id/slogan"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/loadingText"
@@ -22,6 +56,6 @@
         android:layout_below="@id/loadingProgressBar"
         android:layout_marginTop="16dp"
         android:layout_centerHorizontal="true"
-        android:textColor="@android:color/black"/>
+        android:textColor="#E91E63" />
 
 </RelativeLayout>

@@ -1,6 +1,8 @@
 package com.example.testaudioenglish.Adapter;
 
+import android.app.Activity;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +24,21 @@ public class WordInTopicAdapter extends RecyclerView.Adapter<WordInTopicAdapter.
     private List<FlashCardEntity> items;
     private LearningViewModel learningViewModel;
     private TextToSpeech textToSpeech;
+    public void updateData(List<FlashCardEntity> newData) {
+        this.items.clear();
+        this.items.addAll(newData);
+        notifyDataSetChanged();
+    }
 
     public WordInTopicAdapter(List<FlashCardEntity> items, LearningViewModel learningViewModel) {
         this.items = items;
         this.learningViewModel = learningViewModel;
+        this.textToSpeech = new TextToSpeech(learningViewModel.getApplication().getApplicationContext(), status -> {
+            if (status == TextToSpeech.SUCCESS) {
+                textToSpeech.setLanguage(Locale.US);
+                textToSpeech.setSpeechRate(1.0f);
+            }
+        });
     }
 
     @NonNull
@@ -44,27 +57,18 @@ public class WordInTopicAdapter extends RecyclerView.Adapter<WordInTopicAdapter.
         updateStarIcon(holder.starIcon, item.getTick());
 
         holder.loundIcon.setOnClickListener(view -> {
-            textToSpeech = new TextToSpeech(view.getContext(), i -> {
-                if (i == TextToSpeech.SUCCESS) {
-                    textToSpeech.setLanguage(Locale.US);
-                    textToSpeech.setSpeechRate(1.0f);
-                    textToSpeech.speak(item.getEnglishWord(), TextToSpeech.QUEUE_ADD, null);
-                }
-            });
+            textToSpeech.speak(item.getEnglishWord(), TextToSpeech.QUEUE_ADD, null, null);
         });
 
         holder.starIcon.setOnClickListener(view -> {
+            Log.d("StarIcon", "Star icon clicked");
             boolean isTicked = item.getTick() == 1;
-            if (isTicked) {
-                holder.starIcon.setImageResource(R.drawable.star);
-                item.setTick(0);
-            } else {
-                holder.starIcon.setImageResource(R.drawable.startfullfill);
-                item.setTick(1);
-            }
-
+            item.setTick(isTicked ? 0 : 1);
+            updateStarIcon(holder.starIcon, item.getTick());
+            // Dang bi loi
             learningViewModel.updateTickedStatus(item.getIdTopic(), item.getId(), !isTicked);
-            notifyItemChanged(position);
+
+
         });
     }
 

@@ -1,0 +1,16 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <!-- Color or shape when the thumb is pressed -->
+        <shape android:shape="oval">
+            <solid android:color="#4CAF50" />
+            <size android:width="20dp" android:height="20dp" />
+        </shape>
+    </item>
+    <item>
+        <!-- Default state of the thumb -->
+        <shape android:shape="oval">
+            <solid android:color="#151515" />
+            <size android:width="18dp" android:height="16dp" />
+        </shape>
+    </item>
+</selector>

@@ -12,7 +12,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,8 +26,10 @@ import com.example.testaudioenglish.viewmodel.FlashCardAddViewModel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public class AddFlashCardActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -37,121 +38,171 @@ public class AddFlashCardActivity extends AppCompatActivity {
     private FlashCardAddViewModel viewModel;
     private TextView textLesson;
     private ImageView checkFinish;
+    private List<WordFlashCard> list = new ArrayList<>();
+    private long idTopic;
+    private String statusEdit;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_flash_card);
 
-        textLesson = findViewById(R.id.nameLesson);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        checkFinish = findViewById(R.id.checkFinish);
-        setSupportActionBar(toolbar);
-        toolbar.setTitle("");
+        initViews();
+        setupToolbar();
+        handleIntentData();
+        setupRecyclerView();
 
+        addFlash.setOnClickListener(view -> addNewItem());
+        checkFinish.setOnClickListener(view -> validateAndImport());
+    }
+
+    private void initViews() {
+        textLesson = findViewById(R.id.nameLesson);
+        recyclerView = findViewById(R.id.recyflashcard);
         addFlash = findViewById(R.id.add_flashcard);
+        checkFinish = findViewById(R.id.checkFinish);
+        viewModel = new ViewModelProvider(this).get(FlashCardAddViewModel.class);
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setTitle("");
         }
+    }
 
-        viewModel = new ViewModelProvider(this).get(FlashCardAddViewModel.class);
+    private void handleIntentData() {
+        Intent intent = getIntent();
+        idTopic = intent.getLongExtra("value", -1);
+        statusEdit = intent.getStringExtra("status");
 
-        recyclerView = findViewById(R.id.recyflashcard);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        adapter = new AddFlashCardAdapter(new ArrayList<>());
-        recyclerView.setAdapter(adapter);
-
-        viewModel.getFlashCardList().observe(this, new Observer<List<WordFlashCard>>() {
-            @Override
-            public void onChanged(List<WordFlashCard> wordFlashCards) {
-                adapter.setFlashCardList(wordFlashCards);
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-        addFlash.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addNewItem();
-            }
-        });
-
-        // Add a default FlashCard if the list is empty
-        if (viewModel.getFlashCardList().getValue() == null || viewModel.getFlashCardList().getValue().isEmpty()) {
-            viewModel.addFlashCard(new WordFlashCard("", ""));
+        if (idTopic == -1 && statusEdit == null) {
+            list.add(new WordFlashCard("", ""));
+        } else {
+            setRecyclerViewData();
         }
+    }
 
-        checkFinish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(viewModel.getFlashCardList().getValue().size() < 2){
-                    Toast.makeText(AddFlashCardActivity.this, "Vui lòng nhập trên 2 thuật ngữ", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    importToDatabase();
-                }
+    private void setupRecyclerView() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new AddFlashCardAdapter(list);
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void setRecyclerViewData() {
+        viewModel.getTitleTopic(idTopic).observe(this, title -> textLesson.setText(title));
+        viewModel.getWordByIdTopic(idTopic).observe(this, flashCardEntities -> {
+            for (FlashCardEntity flashCardEntity : flashCardEntities) {
+                list.add(new WordFlashCard(flashCardEntity.getEnglishWord(), flashCardEntity.getVietWord()));
             }
+            adapter.notifyDataSetChanged();
         });
     }
 
     private void addNewItem() {
-        WordFlashCard newFlashCard = new WordFlashCard("", "");
-        viewModel.addFlashCard(newFlashCard);
-        if (viewModel.getFlashCardList().getValue() != null) {
-            recyclerView.smoothScrollToPosition(viewModel.getFlashCardList().getValue().size() - 1);
+        list.add(new WordFlashCard("", ""));
+        adapter.notifyItemInserted(list.size() - 1);
+        recyclerView.smoothScrollToPosition(list.size() - 1);
+    }
+
+    private void validateAndImport() {
+        if (list.size() < 2) {
+            showToast("Vui lòng nhập trên 2 thuật ngữ");
+        } else if (hasDuplicateEnglishWords(list)) {
+            showToast("Thuật ngữ tiếng Anh không được trùng nhau");
+        } else {
+            importToDatabase(1);
+
         }
     }
 
-    private String getDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        Date currentDate = new Date();
-        return sdf.format(currentDate);
+    private boolean hasDuplicateEnglishWords(List<WordFlashCard> flashCardList) {
+        Set<String> englishWords = new HashSet<>();
+        for (WordFlashCard flashCard : flashCardList) {
+            if (!englishWords.add(flashCard.getEngVer())) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    private void importToDatabase() {
-        List<WordFlashCard> list = viewModel.getFlashCardList().getValue();
-        if (list == null || list.isEmpty()) {
-            Toast.makeText(this, "No flashcards to add", Toast.LENGTH_SHORT).show();
+    private void importToDatabase(int status) {
+        if (list.isEmpty()) {
+            showToast("Không có thẻ ghi chú để thêm");
             return;
         }
 
         String username = getValueUserName();
         if (username.isEmpty()) {
-            Toast.makeText(this, "Username is not set", Toast.LENGTH_SHORT).show();
+            showToast("Tên người dùng chưa được thiết lập");
             return;
         }
 
         String lessonName = textLesson.getText().toString();
         if (lessonName.isEmpty()) {
-            Toast.makeText(this, "Lesson name is empty", Toast.LENGTH_SHORT).show();
+            showToast("Tên bài học trống");
             return;
         }
 
-        long id = viewModel.insertTopic(new TopicFlashCardEntity(lessonName, getDate(), username));
-        if (id == -1) {
-            Toast.makeText(this, "Failed to add topic", Toast.LENGTH_SHORT).show();
+        if (idTopic == -1 || "duplicate".equals(statusEdit)) {
+            handleNewTopic(lessonName, status, username);
+        } else {
+            updateExistingTopic(status);
+        }
+        finish();
+    }
+
+    private void handleNewTopic(String lessonName, int status, String username) {
+        long newIdTopic = viewModel.insertTopic(new TopicFlashCardEntity(lessonName, getDate(), username, status));
+        if (newIdTopic == -1) {
+            showToast("Thêm chủ đề thất bại vì tên bài tồn tại");
             return;
         }
-
         for (WordFlashCard flashCard : list) {
-            viewModel.insert(new FlashCardEntity(id, flashCard.getEngVer(), flashCard.getVietVer()));
+            if (flashCard.getEngVer().isEmpty()) {
+                showToast("Từ tiếng Anh không được để trống");
+                return;
+            }
+            viewModel.insert(new FlashCardEntity(newIdTopic, flashCard.getEngVer(), flashCard.getVietVer()));
         }
+        showToast(status == 1 ? "Thêm thành công" : "Đã lưu vào bản nháp");
+        if (status == 1) finish();
+    }
 
-        Toast.makeText(this, "Added successfully", Toast.LENGTH_SHORT).show();
-        onBackPressed();
+    private void updateExistingTopic(int status) {
+        viewModel.updateStatus(idTopic, status);
+        viewModel.deleteAllFlashCardsByTopic(idTopic);
+        for (WordFlashCard flashCard : list) {
+            viewModel.insert(new FlashCardEntity(idTopic, flashCard.getEngVer(), flashCard.getVietVer()));
+        }
+        showToast(status == 1 ? "Thêm thành công" : "Đã lưu vào bản nháp");
+        if (status == 1){
+           finish();
+        }
+    }
+
+    private String getDate() {
+        return new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
     }
 
     public String getValueUserName() {
         SharedPreferences sharedPref = getSharedPreferences("my_preferences", Context.MODE_PRIVATE);
-        return sharedPref.getString("username", ""); // Default value is an empty string if key 'username' is not found
+        return sharedPref.getString("username", "");
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
+        if (statusEdit == null) {
+            importToDatabase(0);
+        }
+        finish();
         return true;
     }
 }

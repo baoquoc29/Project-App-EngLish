@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.testaudioenglish.viewmodel.ExamAnyFragmentViewModel" />
+    </data>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="5dp"
+            tools:context=".Activity.ExamEachAnyPartActivity">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/sheets"
+                    android:layout_width="32dp"
+                    android:layout_height="27dp"
+                    android:contentDescription="Sheets icon"
+                    android:onClick="@{() -> viewModel.clickedToSheets()}"
+                    android:src="@drawable/sheets" />
+
+                <TextView
+                    android:id="@+id/item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:text="12/15"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp" />
+
+                <ImageView
+                    android:id="@+id/close"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:onClick="@{() -> viewModel.clickToClose()}"
+                    android:src="@drawable/close"
+                    android:contentDescription="Close icon" />
+            </LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:id="@+id/imageShortConversation"
+                android:layout_height="250dp"></ImageView>
+            <!-- Question Block 1 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/layoutPart2_question1"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="18sp"
+                    android:id="@+id/questionPart2_question1"
+                    android:layout_width="match_parent"
+                    android:text="Câu 1: "
+                    android:layout_height="wrap_content" />
+                <RadioGroup
+                    android:id="@+id/choicesRadioGroupPart2_question1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="16dp"
+                    android:padding="8dp">
+
+                    <RadioButton
+                        android:id="@+id/radioPart2A_question1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="A" />
+                    <RadioButton
+                        android:id="@+id/radioPart2B_question1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="B" />
+                    <RadioButton
+                        android:id="@+id/radioPart2C_question1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="C" />
+                    <RadioButton
+                        android:id="@+id/radioPart2D_question1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="D" />
+                </RadioGroup>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/correctAnswer1"
+                android:layout_width="match_parent"
+                android:text="Đáp án đúng là: "
+                android:textColor="#009688"
+                android:visibility="gone"
+                android:layout_height="wrap_content" />
+            <!-- Question Block 2 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/layoutPart2_question2"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="18sp"
+                    android:id="@+id/questionPart2_question2"
+                    android:layout_width="match_parent"
+                    android:text="Câu 2: "
+                    android:layout_height="wrap_content" />
+                <RadioGroup
+                    android:id="@+id/choicesRadioGroupPart2_question2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="16dp"
+                    android:padding="8dp">
+
+                    <RadioButton
+                        android:id="@+id/radioPart2A_question2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="A" />
+                    <RadioButton
+                        android:id="@+id/radioPart2B_question2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="B" />
+                    <RadioButton
+                        android:id="@+id/radioPart2C_question2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="C" />
+                    <RadioButton
+                        android:id="@+id/radioPart2D_question2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="D" />
+                </RadioGroup>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/correctAnswer2"
+                android:layout_width="match_parent"
+                android:text="Đáp án đúng là: "
+                android:visibility="gone"
+                android:textColor="#009688"
+                android:layout_height="wrap_content" />
+
+            <!-- Question Block 3 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/layoutPart2_question3"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="18sp"
+                    android:id="@+id/questionPart2_question3"
+                    android:layout_width="match_parent"
+                    android:text="Câu 3: "
+                    android:layout_height="wrap_content" />
+                <RadioGroup
+                    android:id="@+id/choicesRadioGroupPart2_question3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="16dp"
+                    android:padding="8dp">
+
+                    <RadioButton
+                        android:id="@+id/radioPart2A_question3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="A" />
+                    <RadioButton
+                        android:id="@+id/radioPart2B_question3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="B" />
+                    <RadioButton
+                        android:id="@+id/radioPart2C_question3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="C" />
+                    <RadioButton
+                        android:id="@+id/radioPart2D_question3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="D" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/correctAnswer3"
+                android:layout_width="match_parent"
+                android:text="Đáp án đúng là: "
+                android:visibility="gone"
+                android:textColor="#009688"
+                android:layout_height="wrap_content" />
+
+            <!-- Audio Control Section -->
+            <LinearLayout
+                android:id="@+id/audioControlSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="24dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:id="@+id/currentTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0:00"
+                    android:layout_marginStart="8dp"
+                    android:textSize="16sp" />
+
+                <SeekBar
+                    android:id="@+id/sourceListening"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:progressDrawable="@drawable/custom_progess_audio"
+                    android:thumb="@drawable/custom_thumb_audio"
+                    android:maxHeight="5dp"
+                    android:splitTrack="false" />
+
+                <LinearLayout
+                    android:id="@+id/playPauseControl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp">
+
+                    <ImageView
+                        android:id="@+id/pauseButton"
+                        android:layout_width="25dp"
+                        android:visibility="gone"
+                        android:onClick="@{() -> viewModel.clickedPauseAudio()}"
+                        android:layout_height="32dp"
+                        android:src="@drawable/pause"
+                        android:contentDescription="Pause icon" />
+
+                    <ImageView
+                        android:id="@+id/playButton"
+                        android:layout_width="25dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/play"
+                        android:onClick="@{() -> viewModel.clickedPlayAudio()}"
+                        android:contentDescription="Play icon" />
+
+                    <TextView
+                        android:id="@+id/remainingTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0:00"
+                        android:layout_marginStart="8dp"
+                        android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/speed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1.0x"
+                        android:onClick="@{() -> viewModel.clickedSpeedAudio()}"
+                        android:layout_marginStart="8dp"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_marginTop="50dp"
+                android:weightSum="3"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:src="@drawable/back"
+                    android:onClick="@{() -> viewModel.clickedToBack()}"
+                    android:id="@+id/buttonBack"
+                    android:layout_height="30dp" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/checkButton"
+                    android:layout_width="0dp"
+                    android:text="Check"
+                    android:layout_weight="2"
+                    android:onClick="@{() -> viewModel.clickedToCheck()}"
+                    android:layout_gravity="center"
+                    android:layout_height="40dp" />
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:src="@drawable/forward"
+                    android:onClick="@{() -> viewModel.clickedToForward()}"
+                    android:id="@+id/buttonForward"
+                    android:layout_height="30dp" />
+            </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+</layout>

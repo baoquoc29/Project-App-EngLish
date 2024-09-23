@@ -14,7 +14,8 @@ import com.example.testaudioenglish.DAO.TopicFlashCardDao;
 import com.example.testaudioenglish.Entity.FlashCardEntity;
 import com.example.testaudioenglish.Entity.TopicFlashCardEntity;
 
-@Database(entities = {FlashCardEntity.class, TopicFlashCardEntity.class}, version = 4)
+
+@Database(entities = {FlashCardEntity.class, TopicFlashCardEntity.class}, version = 5)
 public abstract class FlashCardDatabase extends RoomDatabase {
     public abstract FlashCardDao flashCardDao();
     public abstract TopicFlashCardDao topicFlashCardDao();
@@ -34,7 +35,7 @@ public abstract class FlashCardDatabase extends RoomDatabase {
                                     db.execSQL("PRAGMA foreign_keys=ON;");
                                 }
                             })
-                            .addMigrations(MIGRATION_3_4) // Add migration from 3 to 4
+                            .addMigrations(MIGRATION_4_5) // Thêm migration từ 4 đến 5
                             .build();
                 }
             }
@@ -42,11 +43,12 @@ public abstract class FlashCardDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    // Migration from version 3 to version 4
-    private static final Migration MIGRATION_3_4 = new Migration(3, 4) {
+    // Migration từ version 4 đến version 5
+    private static final Migration MIGRATION_4_5 = new Migration(4, 5) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-            database.execSQL("ALTER TABLE FlashCardEntity ADD COLUMN `Check` INTEGER DEFAULT 0 NOT NULL");
+            // Thêm cột "status" vào bảng TopicFlashCardEntity
+            database.execSQL("ALTER TABLE TopicFlashCardEntity ADD COLUMN `status` INTEGER DEFAULT 0 NOT NULL");
         }
     };
 }

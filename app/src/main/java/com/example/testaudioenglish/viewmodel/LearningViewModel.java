@@ -1,6 +1,7 @@
 package com.example.testaudioenglish.viewmodel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -9,12 +10,14 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.testaudioenglish.Entity.FlashCardEntity;
 import com.example.testaudioenglish.Repository.FlashCardRepository;
+import com.example.testaudioenglish.Repository.TopicFlashCardRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LearningViewModel extends AndroidViewModel {
     private FlashCardRepository repository;
+    private TopicFlashCardRepository topicFlashCardRepository;
     private MutableLiveData<Boolean> sortClicked = new MutableLiveData<>();
     private LiveData<List<FlashCardEntity>> listSortByAlphabet;
     private LiveData<List<FlashCardEntity>> list_flashCard;
@@ -28,30 +31,22 @@ public class LearningViewModel extends AndroidViewModel {
     public MutableLiveData<Boolean> getSortClicked() {
         return sortClicked;
     }
-    private MutableLiveData<Integer> countCheck = new MutableLiveData<>();
+
 
     public MutableLiveData<Boolean> getNavigateToExam() {
         return navigateToExam;
     }
 
-    public void setNavigateToExam(MutableLiveData<Boolean> navigateToExam) {
-        this.navigateToExam = navigateToExam;
-    }
-
-    public void setSortClicked(MutableLiveData<Boolean> sortClicked) {
-        this.sortClicked = sortClicked;
-    }
     public void switchToExam(){
         navigateToExam.setValue(true);
     }
     public MutableLiveData<Boolean> getNavigateToMultipleChoice() {
         return navigateToMultipleChoice;
     }
-
-    public void setNavigateToMultipleChoice(MutableLiveData<Boolean> navigateToMultipleChoice) {
-        this.navigateToMultipleChoice = navigateToMultipleChoice;
+    public void delete(long idTopic){
+        topicFlashCardRepository.deleteTopic(idTopic);
+        repository.delete(idTopic);
     }
-
     public void onButtonSwitchToMultiple(){
         navigateToMultipleChoice.setValue(true);
     }
@@ -63,9 +58,6 @@ public class LearningViewModel extends AndroidViewModel {
         return navigateToMemoryCard;
     }
 
-    public void setNavigateToMemoryCard(MutableLiveData<Boolean> navigateToMemoryCard) {
-        this.navigateToMemoryCard = navigateToMemoryCard;
-    }
     public void clickToMemoryCard(){
         navigateToMemoryCard.setValue(true);
     }
@@ -73,6 +65,7 @@ public class LearningViewModel extends AndroidViewModel {
         super(application);
         repository = new FlashCardRepository(application);
         list_flashCard = new MutableLiveData<>(new ArrayList<>());
+        topicFlashCardRepository = new TopicFlashCardRepository(application);
         listSortByAlphabet = new MutableLiveData<>(new ArrayList<>());
     }
     public void onClickNavigateToPairingCard(){
@@ -82,9 +75,6 @@ public class LearningViewModel extends AndroidViewModel {
         return navigateToPairingCard;
     }
 
-    public void setNavigateToPairingCard(MutableLiveData<Boolean> navigateToPairingCard) {
-        this.navigateToPairingCard = navigateToPairingCard;
-    }
     public LiveData<Integer> getCountCheck(long idTopic){
         return repository.countCheck(idTopic);
     }
@@ -97,11 +87,14 @@ public class LearningViewModel extends AndroidViewModel {
     }
 
     public void updateTickedStatus(long id, long idWord, boolean isTicked) {
+        Log.d("UpdateStatus", "Updating tick status: idTopic=" + id + ", idWord=" + idWord + ", isTicked=" + isTicked);
         if (isTicked) {
             repository.updateTickerClickedFull(id, idWord);
         } else {
             repository.updateTickerClickedEmpty(id, idWord);
         }
+
+
     }
 
     public LiveData<String> getCountWord() {

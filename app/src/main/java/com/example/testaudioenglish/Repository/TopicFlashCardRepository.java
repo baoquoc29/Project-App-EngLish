@@ -31,8 +31,18 @@ public class TopicFlashCardRepository {
     public LiveData<List<TopicFlashCardEntity>> getFlashCardsByUsername(String username) {
         return topicFlashCardDao.getFlashCardsByUsername(username);
     }
-    public LiveData<List<TopicFlashCardEntity>> getFlashCardsByTitle(String title) {
-        return topicFlashCardDao.getFiller(title);
+    public void updateTopicStatus(long idTopic, int newStatus) {
+        executorService.execute(() -> {
+            topicFlashCardDao.updateTopicStatus(idTopic, newStatus);
+        });
+    }
+    public void deleteTopic(long idTopic) {
+        executorService.execute(() -> {
+            topicFlashCardDao.deleteTopic(idTopic);
+        });
+    }
+    public LiveData<List<TopicFlashCardEntity>> getFlashCardsByTitle(String title,String username) {
+        return topicFlashCardDao.getFiller(title,username);
     }
     public long insert(TopicFlashCardEntity flashCard) {
         Callable<Long> insertCallable = () -> topicFlashCardDao.insertTopic(flashCard);

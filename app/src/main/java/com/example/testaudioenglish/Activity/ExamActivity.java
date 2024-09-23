@@ -3,10 +3,10 @@ package com.example.testaudioenglish.Activity;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.testaudioenglish.R;
-import com.example.testaudioenglish.View.CardPairingFragment;
-import com.example.testaudioenglish.View.ExamFragment;
-import com.example.testaudioenglish.View.MemoryCardFragment;
-import com.example.testaudioenglish.View.MultipleChoiceFragment;
+import com.example.testaudioenglish.View.FlashCardView.CardPairingFragment;
+import com.example.testaudioenglish.View.FlashCardView.ExamFragment;
+import com.example.testaudioenglish.View.FlashCardView.MemoryCardFragment;
+import com.example.testaudioenglish.View.FlashCardView.MultipleChoiceFragment;
 
 public class ExamActivity extends AppCompatActivity {
 
@@ -24,7 +24,6 @@ public class ExamActivity extends AppCompatActivity {
             MultipleChoiceFragment fragmentMultipleChoice = (MultipleChoiceFragment) getSupportFragmentManager().findFragmentByTag(MultipleChoiceFragment.class.getSimpleName());
             ExamFragment examFragment = (ExamFragment) getSupportFragmentManager().findFragmentByTag(ExamFragment.class.getSimpleName());
             if (fragmentCardPairing == null && game.equals("Pairing")) {
-                // Create new Fragment and pass data
                 fragmentCardPairing = CardPairingFragment.newInstance(idTopic);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, fragmentCardPairing, CardPairingFragment.class.getSimpleName())

@@ -8,41 +8,36 @@
             name="viewModel"
             type="com.example.testaudioenglish.viewmodel.HomeFragmentViewModel" />
     </data>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FBFBFB"
         android:orientation="vertical"
-        tools:context=".View.FragmentHome">
+        tools:context=".View.AppView.FragmentHome">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:weightSum="1"
             android:gravity="center_vertical">
 
             <TextView
                 android:layout_width="0dp"
                 android:id="@+id/us"
-                android:layout_marginStart="130dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textColor="#EF5350"
                 android:text="@string/welcome_message"
                 android:textSize="16sp"
-                android:gravity="center_vertical"
+                android:gravity="right"
                 android:paddingStart="16dp"
                 android:paddingEnd="8dp"/>
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_image"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="center"
-                android:src="@drawable/images"
-                app:civ_border_color="#FF000000"
-                app:civ_border_width="2dp"
-                android:layout_marginEnd="16dp"/>
+
         </LinearLayout>
 
         <TextView
@@ -62,55 +57,63 @@
             app:cardUseCompatPadding="true"
             android:layout_margin="5dp">
 
-            <ImageView
-                android:layout_width="80dp"
-                android:src="@drawable/point"
-                android:background="@color/white"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_gravity="right"
-                android:layout_height="50dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="14dp">
-
-                <TextView
-                    android:id="@+id/today_hours"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/study_hours_today"
-                    android:textSize="16sp"
-                    android:layout_alignParentStart="true"/>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
+                    <TextView
+                        android:id="@+id/today_hours"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/study_hours_today"
+                        android:textSize="16sp"
+                        android:layout_alignParentStart="true"/>
                     <TextView
                         android:id="@+id/first_time"
                         android:textStyle="bold"
+                        android:layout_marginStart="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/first_time"
-                        android:layout_marginTop="8dp"/>
-
-                    <TextView
-                        android:id="@+id/second_time"
-                        android:layout_marginStart="7dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/second_time"
-                        android:layout_marginTop="8dp"/>
+                        android:text="@string/first_time" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center|left"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/total_day"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Số ngày học tích luỹ"
+                        android:textSize="16sp"
+                        android:layout_alignParentStart="true"/>
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:src="@drawable/fire"
+                        android:layout_marginStart="10dp"
+                        android:layout_height="30dp"></ImageView>
+                    <TextView
+                        android:id="@+id/day"
+                        android:textColor="#FF5722"
+                        android:gravity="center"
+                        android:layout_marginTop="2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="10" />
+                </LinearLayout>
                 <SeekBar
                     android:layout_marginTop="15dp"
                     android:id="@+id/seekBar_luminosite"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="5dp"
                     android:minHeight="15dp"
                     android:minWidth="15dp"
                     android:background="@color/white"
@@ -125,30 +128,266 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
+            android:padding="10dp"
             android:layout_height="wrap_content">
 
             <TextView
                 android:layout_marginTop="25dp"
                 android:layout_width="match_parent"
                 android:text="@string/ongoing_tests"
+                android:textSize="16sp"
                 android:textColor="#5C5B5B"
                 android:layout_height="wrap_content" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_marginTop="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/toeic_types"
-                android:layout_height="match_parent"></TextView>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_marginTop="30dp"
+                android:id="@+id/topicToeic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/listeningTopic"
+            android:padding="10dp"
+            android:weightSum="2"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1.5"
+                android:text="Luyện nghe theo chủ đề"
+                android:textSize="16sp"
+                android:layout_height="wrap_content"></TextView>
+            <TextView
+                android:layout_width="0dp"
+                android:text="Xem thêm"
+                android:layout_weight="1"
+                android:onClick="@{() -> viewModel.navigateToDictationTopic()}"
+                android:id="@+id/dictation_navigation"
+                android:textColor="#03A9F4"
+                android:layout_height="wrap_content"></TextView>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:text="Số ngày đã học trong tuần"
+                android:layout_height="wrap_content"></TextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            android:weightSum="7">
+
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="8dp"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp">
+
+                <LinearLayout
+                    android:id="@+id/monCardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mo" />
+
+                    <TextView
+                        android:id="@+id/dayofweek"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="21" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="8dp"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+
+                android:layout_marginEnd="5dp">
+
+                <LinearLayout
+                    android:id="@+id/tueCardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tue" />
+
+                    <TextView
+                        android:id="@+id/dayofweek1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="21" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="8dp"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+
+                android:layout_marginEnd="5dp">
+
+                <LinearLayout
+                    android:id="@+id/wedCardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Wed" />
+
+                    <TextView
+                        android:id="@+id/dayofweek2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="21" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="8dp"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+
+                android:layout_marginEnd="5dp">
+
+                <LinearLayout
+                    android:id="@+id/thuCardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Thu" />
+
+                    <TextView
+                        android:id="@+id/dayofweek3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="21" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="8dp"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:id="@+id/friCardView"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fri" />
+
+                    <TextView
+                        android:id="@+id/dayofweek4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="21" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="8dp"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+
+                android:layout_marginEnd="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:id="@+id/satCardView"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sat" />
+
+                    <TextView
+                        android:id="@+id/dayofweek5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="21" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="8dp"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:id="@+id/sunCardView"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sun" />
+
+                    <TextView
+                        android:id="@+id/dayofweek6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="21" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+        </LinearLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
 </layout>

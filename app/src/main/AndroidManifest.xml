@@ -3,36 +3,75 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:icon="@drawable/logotoeic"
+        android:label="ToeicTest"
         android:networkSecurityConfig="@xml/network_security_config"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logotoeic"
         android:supportsRtl="true"
         android:theme="@style/Theme.TestAudioEnglish"
         tools:targetApi="31">
         <activity
-            android:name=".Activity.ExamActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.LearningActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.AddFlashCardActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.MainActivity"
-            android:exported="true">
+            android:name=".Activity.SplashActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
+        </activity>
+        <activity
+            android:name=".Activity.DictationQuestionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.DictationTopicActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.ManagementExamAnyPartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.ExamAnyPartActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.ExamEachAnyPartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.ExamNavigationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.UpdateCustomerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.HistoryExamActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.LayoutFinishActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.ExamToeicActivity"
+            android:exported="true" />
+        <activity
+            android:name=".View.ToeicView.MultipleChoiceToeicFragment"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.ExamActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.LearningActivity"
+            android:launchMode="singleTask"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.AddFlashCardActivity"
+            android:launchMode="singleTask"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.MainActivity"
+            android:exported="true">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -42,7 +81,8 @@
             android:exported="true" />
         <activity
             android:name=".Activity.LoginActivity"
-            android:exported="true" />
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>

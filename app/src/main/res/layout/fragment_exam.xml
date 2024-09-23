@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.testaudioenglish.viewmodel.ExamViewModel" />
+    </data>
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/settings"
+    tools:context=".View.FlashCardView.ExamFragment">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="Kiểm tra">
+        <TextView
+            android:id="@+id/item"
+            android:layout_width="wrap_content"
+            android:text="12/15"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:textSize="17sp"
+            android:layout_height="wrap_content"></TextView>
+    </androidx.appcompat.widget.Toolbar>
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:max="100"
+        android:padding="0dp"
+        android:visibility="gone"
+        android:progress="30"
+        android:progressDrawable="@drawable/custom_progess"
+        android:thumb="@drawable/custom_thumb_seek" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layoutSettings"
+        android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:text="Test"
+            android:id="@+id/title"
+            android:layout_height="match_parent"></TextView>
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:text="Thiết lập bài kiểm tra"
+            android:textSize="23sp"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"></TextView>
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right|center"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/examicon"></ImageView>
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:padding="15dp"
+        android:layout_height="wrap_content">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:text="Số câu hỏi (Tối đa 3)"
+                android:gravity="center|left"
+                android:id="@+id/titleAnswer"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"></TextView>
+            <EditText
+                android:id="@+id/answerMax"
+                android:layout_width="50dp"
+                android:text="0"
+                android:gravity="center"
+                android:inputType="number"
+                android:layout_gravity="right"
+                android:background="@drawable/background"
+                android:layout_height="50dp"></EditText>
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="25dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:text="Hiện thị đáp án ngay"
+                android:gravity="center|left"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"></TextView>
+          <Switch
+              android:layout_width="50dp"
+              android:gravity="center"
+              android:layout_gravity="right"
+              android:id="@+id/switchVisibleAnswer"
+              android:layout_height="50dp"></Switch>
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="25dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:text="Đúng / Sai"
+                android:gravity="center|left"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"></TextView>
+            <Switch
+                android:layout_width="50dp"
+                android:gravity="center"
+                android:id="@+id/switchCorrectInCorrect"
+                android:layout_gravity="right"
+                android:layout_height="50dp"></Switch>
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="25dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:text="Nhiều lựa chọn"
+                android:gravity="center|left"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"></TextView>
+            <Switch
+                android:layout_width="50dp"
+                android:gravity="center"
+                android:layout_gravity="right"
+                android:id="@+id/switchMultiple"
+                android:layout_height="50dp"></Switch>
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="25dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:text="Tự luận"
+                android:gravity="center|left"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"></TextView>
+            <Switch
+                android:layout_width="50dp"
+                android:gravity="center"
+                android:id="@+id/switchFill"
+                android:layout_gravity="right"
+                android:layout_height="50dp"></Switch>
+        </FrameLayout>
+    </LinearLayout>
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_marginTop="15dp"
+        android:text="Bắt đầu làm bài kiểm tra"
+        android:onClick="@{() -> viewModel.clickToExam()}"
+        android:background="@drawable/backgroundbutton"
+        android:layout_height="wrap_content"></androidx.appcompat.widget.AppCompatButton>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/layoutExam"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/multiple"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <TextView
+                android:id="@+id/engver"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Parade"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/titleMultipleChoice"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/titleCorrect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/title_correct"
+                android:textColor="#66BB6A"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/titleNotCorrect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/title_incorrect"
+                android:textColor="#EF5350"
+                android:visibility="gone" />
+
+            <!-- Option A -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/background"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp">
+
+                    <ImageView
+                        android:id="@+id/incorrectA"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:src="@drawable/incorrect"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:id="@+id/correctA"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:src="@drawable/correct"
+                        android:visibility="invisible" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/answerA"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="30dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/test_multiple"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <!-- Option B -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/background"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp">
+
+                    <ImageView
+                        android:id="@+id/incorrectB"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:src="@drawable/incorrect"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:id="@+id/correctB"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:src="@drawable/correct"
+                        android:visibility="invisible" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/answerB"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="30dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/test_multiple"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <!-- Option C -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/background"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp">
+
+                    <ImageView
+                        android:id="@+id/incorrectC"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:src="@drawable/incorrect"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:id="@+id/correctC"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:src="@drawable/correct"
+                        android:visibility="invisible" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/answerC"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="30dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/test_multiple"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <!-- Option D -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/background"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp">
+
+                    <ImageView
+                        android:id="@+id/incorrectD"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:src="@drawable/incorrect"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:id="@+id/correctD"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:src="@drawable/correct"
+                        android:visibility="invisible" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/answerD"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="30dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/test_multiple"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutMerge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textMerge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Parade"
+                android:textSize="20sp"></TextView>
+
+            <LinearLayout
+                android:id="@+id/layoutRes"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="20dp"
+                android:padding="10dp"
+                android:weightSum="1">
+
+                <EditText
+                    android:id="@+id/resultMerge"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#0000"
+                    android:hint="Nhập đáp án"></EditText>
+
+                <TextView
+                    android:id="@+id/skipMerge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Không biết"
+                    android:textColor="#035497"
+                    android:textSize="16sp"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutSkipped"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Thử lại câu hỏi này sau!"></TextView>
+
+                <TextView
+                    android:id="@+id/titleSkipped"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center|left"
+                    android:text="Đã bỏ qua"
+                    android:textSize="16sp"></TextView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/titleMergeCorrect"
+                    android:text="Câu trả lời đúng!"
+                    android:textColor="#059C0C"></TextView>
+
+                <TextView
+                    android:id="@+id/answerCorrect"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/background_btn"
+                    android:gravity="center|left"
+                    android:text="Đáp án đúng"
+                    android:textSize="16sp"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutInCorrect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Đừng lo, bạn vẫn đang học mà!"
+                    android:textColor="#EF5350"></TextView>
+
+                <TextView
+                    android:id="@+id/mergeIncorrect"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/background_incorrect"
+                    android:gravity="center|left"
+                    android:text="Đã bỏ qua"
+                    android:textSize="16sp"></TextView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Câu trả lời đúng!"
+                    android:textColor="#059C0C"></TextView>
+
+                <TextView
+                    android:id="@+id/answerCorrectNoSkipped"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/background_btn"
+                    android:gravity="center|left"
+                    android:text="Đáp án đúng"
+                    android:textSize="16sp"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutCorrect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rất tốt hãy cố gắng thêm nhé!"
+                    android:textColor="#66BB6A"></TextView>
+
+                <TextView
+                    android:id="@+id/mergecorrect"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/background_btn"
+                    android:gravity="center|left"
+                    android:text="Đáp án đúng!"
+                    android:textSize="16sp"></TextView>
+            </LinearLayout>
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonNext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/backgroundbutton"
+            android:text="@string/continue_multiple"
+            android:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/checkMerge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="300dp"
+            android:text="Câu kế tiếp!"
+            android:visibility="gone"></androidx.appcompat.widget.AppCompatButton>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:id="@+id/layoutCorrectOrIncorrect"
+        android:visibility="gone"
+        android:layout_marginTop="200dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/text_engver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hello"
+            android:gravity="center"
+            android:padding="8dp"/>
+
+        <TextView
+            android:id="@+id/text_vietver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Xin Chao"
+            android:gravity="center"
+            android:padding="8dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="100dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/button_dung"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text=""
+                android:src="@drawable/correct"
+
+                android:layout_margin="8dp"/>
+
+            <ImageView
+                android:id="@+id/button_sai"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/incorrect"
+                android:text=""
+                android:layout_margin="8dp"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/layoutFinish"
+        android:padding="10dp"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:text="Bạn đang tiến bộ!"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"></TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:textSize="17sp"
+                android:layout_marginTop="40dp"
+                android:text="Tiếp theo, hãy ôn luyện thêm"
+                android:layout_height="wrap_content"></TextView>
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="right"
+                android:src="@drawable/light"></ImageView>
+        </FrameLayout>
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:orientation="vertical"
+           android:layout_height="wrap_content">
+           <TextView
+               android:layout_width="match_parent"
+               android:text="Kết quả của bạn"
+               android:textSize="18sp"
+               android:layout_height="wrap_content"></TextView>
+           <TextView
+               android:layout_width="wrap_content"
+               android:text="Đúng : 2"
+               android:textSize="15sp"
+               android:id="@+id/totalCorrect"
+               android:textColor="#66BB6A"
+               android:layout_marginTop="5dp"
+               android:layout_height="wrap_content"></TextView>
+           <TextView
+               android:layout_width="wrap_content"
+               android:text="Sai : 2"
+               android:textSize="15sp"
+               android:id="@+id/totalIncorrect"
+               android:textColor="#F40606"
+               android:layout_marginTop="10dp"
+               android:layout_height="wrap_content"></TextView>
+       </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:padding="5dp"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:text="Bước tiếp theo!"
+                android:textSize="18sp"
+                android:layout_height="wrap_content"></TextView>
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="match_parent"
+                android:id="@+id/againExam"
+                android:text="Làm lại bài kiểm tra mới ! (1 lần)"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/backgournd_no_radius"
+                android:textColor="@color/white"
+                android:onClick="@{() -> viewModel.clickExamAgain()}"
+                android:layout_height="wrap_content"></androidx.appcompat.widget.AppCompatButton>
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="match_parent"
+                android:id="@+id/turnback"
+                android:text="Quay lại ôn tập !"
+                android:onClick="@{() -> viewModel.clickTurnBack()}"
+                android:background="@drawable/background_no_radius_default"
+                android:layout_marginTop="10dp"
+                android:textColor="#393737"
+                android:layout_height="wrap_content"></androidx.appcompat.widget.AppCompatButton>
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.core.widget.NestedScrollView>
+    </layout>

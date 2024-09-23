@@ -1,5 +1,6 @@
 package com.example.testaudioenglish.Adapter;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,7 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testaudioenglish.Entity.TopicFlashCardEntity;
-import com.example.testaudioenglish.OnItemClickListener;
+import com.example.testaudioenglish.InterfaceAdapter.OnItemClickListener;
 import com.example.testaudioenglish.R;
 import com.example.testaudioenglish.Repository.TopicFlashCardRepository;
 
@@ -61,6 +62,14 @@ public class TopicFlashCardAdapter extends RecyclerView.Adapter<TopicFlashCardAd
                 onItemClickListener.onItemClick(holder.getAdapterPosition());
             }
         });
+        if(flashCard.getStatus() == 0){
+            holder.status.setVisibility(View.VISIBLE);
+            holder.status.setText("Bản nháp");
+            holder.status.setTextColor(Color.GRAY);
+        }
+        else{
+            holder.status.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -74,6 +83,7 @@ public class TopicFlashCardAdapter extends RecyclerView.Adapter<TopicFlashCardAd
         public TextView termCount;
         public TextView username;
         public CircleImageView profileImage;
+        public TextView status;
 
         public FlashCardViewHolder(View view) {
             super(view);
@@ -82,6 +92,7 @@ public class TopicFlashCardAdapter extends RecyclerView.Adapter<TopicFlashCardAd
             termCount = view.findViewById(R.id.tv_term_count);
             username = view.findViewById(R.id.tv_username);
             profileImage = view.findViewById(R.id.profile_image);
+            status = view.findViewById(R.id.status);
         }
     }
 }

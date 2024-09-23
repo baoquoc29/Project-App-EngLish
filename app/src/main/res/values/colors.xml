@@ -2,4 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+        <color name="cardBackground">#FFFFFF</color>
+        <color name="titleColor">#000000</color>
+        <color name="subtitleColor">#444444</color>
+        <color name="difficultyColor">#FF0000</color>
+        <color name="totalCompleteColor">#0000FF</color>
+        <color name="color_default">#FFFFFF</color> <!-- Màu nền mặc định -->
+        <color name="color_checked">#CF9D06</color> <!-- Màu nền sau khi điểm danh -->
+        <color name="color_not_checked">#8C8989</color> <!-- Màu nền nếu chưa điểm danh -->
+
 </resources>

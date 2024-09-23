@@ -13,6 +13,14 @@ public class TopicFlashCardEntity {
         return id;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public void setId(long id) {
         this.id = id;
     }
@@ -41,14 +49,19 @@ public class TopicFlashCardEntity {
         this.username = username;
     }
 
+    public TopicFlashCardEntity(String title, String date, String username, int status) {
+        this.id = id;
+        this.title = title;
+        this.date = date;
+        this.username = username;
+        this.status = status;
+    }
+
     @ColumnInfo(name = "date")
     public String date;
     @ColumnInfo(name = "username")
     public String username;
+    @ColumnInfo(name = "status")
+    public int status;
 
-    public TopicFlashCardEntity(String title, String date, String username) {
-        this.title = title;
-        this.date = date;
-        this.username = username;
-    }
 }

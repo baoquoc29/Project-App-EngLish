@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:tools="http://schemas.android.com/tools"
+<layout  xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.testaudioenglish.viewmodel.AccountFragmentViewModel" />
+    </data>
+<androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 <androidx.appcompat.widget.LinearLayoutCompat
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".View.AccountFragment">
+    tools:context=".View.AppView.AccountFragment">
     <LinearLayout
         android:layout_width="match_parent"
         android:padding="15dp"
@@ -22,7 +29,7 @@
             android:layout_marginTop="0dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
-            android:src="@drawable/images" />
+            android:src="@drawable/logotoeic" />
 
         <TextView
             android:id="@+id/username"
@@ -31,7 +38,7 @@
             android:layout_marginTop="16dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Bảo Quốc"
+            android:text="@{viewModel.username}"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -52,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Ngày tham gia : 18/06/2024"
+                android:text="@{viewModel.dateNow}"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -61,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:orientation="horizontal"
-            android:weightSum="3">
+            android:weightSum="2">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -73,6 +80,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:gravity="center"
+
                     android:layout_height="wrap_content"
                     android:text="Số bài làm"
                     android:textSize="14sp" />
@@ -81,36 +89,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="20"
+                    android:text="@{viewModel.textTotalExam}"
+                    android:id="@+id/textTotalExam"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:gravity="center" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_marginStart="8dp"
-                android:gravity="center">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:text="Số giờ học"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="20"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:gravity="center" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -131,8 +116,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="20"
+                    android:text="@{viewModel.textMaxPoints}"
                     android:textSize="16sp"
+                    android:id="@+id/textMaxPoint"
                     android:textStyle="bold"
                     android:gravity="center" />
             </LinearLayout>
@@ -200,6 +186,7 @@
             <LinearLayout
                 android:padding="35dp"
                 android:layout_width="match_parent"
+                android:onClick="@{() -> viewModel.clickToHistoryExam()}"
                 android:layout_height="wrap_content">
                 <ImageView
                     android:layout_width="25dp"
@@ -223,6 +210,7 @@
 
             <LinearLayout
                 android:padding="35dp"
+                android:onClick="@{() -> viewModel.clickToChangeInfor()}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
@@ -250,9 +238,10 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_height="wrap_content">
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:layout_width="wrap_content"
                     android:text="Đăng xuất"
+                    android:onClick="@{() -> viewModel.clickToLogout()}"
                     android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
@@ -260,3 +249,4 @@
 
 </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.core.widget.NestedScrollView>
+</layout>

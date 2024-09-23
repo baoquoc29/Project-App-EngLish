@@ -32,7 +32,7 @@
                 android:id="@+id/logoImageView"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:src="@drawable/englishlogo"
+                android:src="@drawable/logosplash"
                 android:layout_gravity="center" />
 
             <TextView

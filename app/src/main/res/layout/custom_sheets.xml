@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <!-- Question Layout -->
+    <LinearLayout
+        android:background="#2A2A3C"
+        android:gravity="center"
+        android:id="@+id/layoutSheets"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"> <!-- Added padding for better spacing -->
+
+        <TextView
+            android:id="@+id/question_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Câu 1"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:layout_marginEnd="16dp"/>
+
+        <RadioButton
+            android:id="@+id/radio_button_a"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:enabled="false"
+            android:button="@null"
+            android:background="@drawable/custom_radio_button"
+            android:text="A"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:textSize="16sp"/>
+
+        <RadioButton
+            android:id="@+id/radio_button_b"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:button="@null"
+            android:enabled="false"
+            android:background="@drawable/custom_radio_button"
+            android:text="B"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:textSize="16sp"/>
+
+        <RadioButton
+            android:id="@+id/radio_button_c"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:button="@null"
+            android:enabled="false"
+            android:background="@drawable/custom_radio_button"
+            android:text="C"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:textSize="16sp"/>
+
+        <RadioButton
+            android:id="@+id/radio_button_d"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:button="@null"
+            android:enabled="false"
+            android:background="@drawable/custom_radio_button"
+            android:text="D"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <!-- Separator Line -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#FFFFFF"
+       />
+</androidx.appcompat.widget.LinearLayoutCompat>

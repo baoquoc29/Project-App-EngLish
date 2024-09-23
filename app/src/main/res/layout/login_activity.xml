@@ -22,7 +22,7 @@
         android:id="@+id/logoImageView"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/englishlogo"
+        android:src="@drawable/logosplash"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/loginTextView"
         app:layout_constraintStart_toStartOf="parent"
@@ -114,7 +114,7 @@
         android:layout_height="wrap_content"
         android:text="Quên mật khẩu?"
 
-        android:onClick="@{() -> viewModelLogin.fogotPass()}"
+        android:onClick="@{() -> viewModelLogin.forgotPass()}"
         android:textColor="#EF5350"
         app:layout_constraintTop_toBottomOf="@id/ground"
         app:layout_constraintEnd_toEndOf="parent"

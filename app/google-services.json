@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "746712430566",
+    "project_id": "ungdunghoctienganh-acabf",
+    "storage_bucket": "ungdunghoctienganh-acabf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:746712430566:android:c32a4698eff2748a4c0827",
+        "android_client_info": {
+          "package_name": "com.example.apphoctienganh"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBm2wvM15X50Om1PtYDv76wZOXwzO29-Sc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:746712430566:android:9a485dc6e099117a4c0827",
+        "android_client_info": {
+          "package_name": "com.example.testaudioenglish"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBm2wvM15X50Om1PtYDv76wZOXwzO29-Sc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

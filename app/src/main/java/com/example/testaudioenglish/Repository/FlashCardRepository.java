@@ -39,6 +39,9 @@ public class FlashCardRepository {
     public LiveData<List<FlashCardEntity>> getListSortByAlphabet(long id) {
         return flashCardDao.getAllFlashCardSortByAlphabet(id);
     }
+    public LiveData<List<FlashCardEntity>> getListLimit(long id,int limit) {
+        return flashCardDao.getAllFlashCardLimit(id,limit);
+    }
 
     public LiveData<Integer> countCheck(long idTopic) {
         MutableLiveData<Integer> count = new MutableLiveData<>();
@@ -55,6 +58,9 @@ public class FlashCardRepository {
         executorService.execute(() -> flashCardDao.insertFlashCard(flashCard));
     }
 
+    public void delete(long id) {
+        executorService.execute(() -> flashCardDao.deleteAllFlashCardsByTopic(id));
+    }
     public void updateTickerClickedEmpty(long id, long word) {
         executorService.execute(() -> flashCardDao.updateTickEmpty(id, word));
     }
@@ -71,7 +77,16 @@ public class FlashCardRepository {
          executorService.execute(() -> ((MutableLiveData<List<String>>) list).postValue(flashCardDao.listRandomAnswers(engVer)));
          return list;
     }
-
+    public LiveData<List<String>> listAnswerInTopic(long idTopic){
+        LiveData<List<String>> list = new MutableLiveData<>();
+        executorService.execute(() -> ((MutableLiveData<List<String>>) list).postValue(flashCardDao.listRandomAnswersInATopic(idTopic)));
+        return list;
+    }
+    public void shutdown() {
+        if (executorService != null && !executorService.isShutdown()) {
+            executorService.shutdown();
+        }
+    }
     public void updateTickerClickedFull(long id, long word) {
         executorService.execute(() -> flashCardDao.updateTickFill(id, word));
     }

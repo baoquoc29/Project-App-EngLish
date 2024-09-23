@@ -5,11 +5,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.testaudioenglish.View.AccountFragment;
-import com.example.testaudioenglish.View.FragmentHome;
-import com.example.testaudioenglish.View.NotificationFragment;
-import com.example.testaudioenglish.View.SearchFragment;
-import com.example.testaudioenglish.View.VocabularyFragment;
+import com.example.testaudioenglish.View.AppView.AccountFragment;
+import com.example.testaudioenglish.View.AppView.FragmentHome;
+import com.example.testaudioenglish.View.AppView.NotificationFragment;
+import com.example.testaudioenglish.View.AppView.SearchFragment;
+import com.example.testaudioenglish.View.AppView.VocabularyFragment;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
 

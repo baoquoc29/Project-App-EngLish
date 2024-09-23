@@ -34,7 +34,7 @@ public class SignUpViewModel extends AndroidViewModel {
 
     public SignUpViewModel(@NonNull Application application) {
         super(application);
-        accountService = RetrofitClient.getClient("http://192.168.0.102:9111").create(AccountService.class);
+        accountService = RetrofitClient.getClient().create(AccountService.class);
     }
     public void login(){
         navigateToLogin.setValue(new Event<>(true));
@@ -53,7 +53,7 @@ public class SignUpViewModel extends AndroidViewModel {
             return;
         }
 
-        AccountCustomer accountCustomer = new AccountCustomer(null, usernameValue, passwordValue, "user", emailValue, nameValue, ageValue, numberPhoneValue);
+        AccountCustomer accountCustomer = new AccountCustomer(null, usernameValue, passwordValue, "user", emailValue, nameValue, Long.valueOf(ageValue), numberPhoneValue);
         isLoading.setValue(true);
 
         Call<Void> call = accountService.signUp(accountCustomer);
@@ -63,6 +63,7 @@ public class SignUpViewModel extends AndroidViewModel {
                 isLoading.setValue(false);
                 if (response.isSuccessful()) {
                     message.setValue("User created successfully");
+
                 } else {
                     message.setValue("Failed to create user");
                 }
@@ -108,7 +109,11 @@ public class SignUpViewModel extends AndroidViewModel {
     private boolean isNullOrEmpty(String str) {
         return str == null || str.isEmpty();
     }
+    private void validateToConfirmPassWord(){
+        String pass = password.getValue();
+        String confirmPass = passwordAgain.getValue();
 
+    }
     private boolean isValidEmail(String email) {
         Pattern pattern = Pattern.compile("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$");
         Matcher matcher = pattern.matcher(email);

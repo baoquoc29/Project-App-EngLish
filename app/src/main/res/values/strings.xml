@@ -38,9 +38,10 @@
     <string name="welcome_message">Welcome , testab12</string>
     <string name="what_to_learn_today">Bạn muốn học gì hôm nay?</string>
     <string name="study_hours_today">Số giờ học hôm nay</string>
-    <string name="first_time">36 Phút /</string>
+    <string name="first_time">36 phút</string>
     <string name="second_time">60 Phút</string>
-    <string name="ongoing_tests">Đề thi đang làm</string>
+    <string name="ongoing_tests">Tổng hợp đề thi </string>
+    <string name="devide_part">Làm theo từng phần</string>
     <string name="toeic_types">Các dạng trong Toeic</string>
     <string name="titleMultipleChoice">Chọn câu trả lời</string>
     <string name="title_correct">Làm tốt lắm</string>

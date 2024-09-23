@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.testaudioenglish.viewmodel.DictationViewModel" />
+    </data>
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context=".Activity.DictationQuestionActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="Luyện nghe theo chủ đề"
+        app:titleTextColor="@color/black" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/conversationTitle"
+            android:layout_width="match_parent"
+            android:text="Conversation: Talkings about pets"
+            android:textSize="18sp"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/navigationControls"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="17dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="20dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/back"
+                android:onClick="@{() -> viewModel.clickedToBack()}"
+                android:layout_height="20dp" />
+            <TextView
+                android:id="@+id/questionIndex"
+                android:layout_width="wrap_content"
+                android:text="1/10"
+                android:textSize="16sp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/forwardButton"
+                android:layout_width="20dp"
+                android:onClick="@{() -> viewModel.clickedToForward()}"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/forward"
+                android:layout_height="20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/audioControlSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp"
+            android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/currentTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0:00"
+                android:layout_marginStart="8dp"
+                android:textSize="16sp" />
+            <SeekBar
+                android:id="@+id/sourceListening"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:progressDrawable="@drawable/custom_progess_audio"
+                android:thumb="@drawable/custom_thumb_audio"
+                android:maxHeight="5dp"
+                android:splitTrack="false" />
+            <LinearLayout
+                android:id="@+id/playPauseControl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp">
+                <ImageView
+                    android:id="@+id/pauseButton"
+                    android:layout_width="25dp"
+                    android:visibility="gone"
+                    android:onClick="@{() -> viewModel.clickedPauseAudio()}"
+                    android:layout_height="32dp"
+                    android:src="@drawable/pause"
+                    android:contentDescription="Pause icon" />
+                <ImageView
+                    android:id="@+id/playButton"
+                    android:layout_width="25dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/play"
+                    android:onClick="@{() -> viewModel.clickedPlayAudio()}"
+                    android:contentDescription="Play icon" />
+                <TextView
+                    android:id="@+id/remainingTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0:00"
+                    android:layout_marginStart="8dp"
+                    android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1.0x"
+                    android:onClick="@{() -> viewModel.clickedSpeedAudio()}"
+                    android:layout_marginStart="8dp"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/textInputCard"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            android:padding="8dp">
+
+            <EditText
+                android:id="@+id/textInputField"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:hint="Enter your text here"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray"
+                android:inputType="textMultiLine"
+                android:maxLines="5"
+                android:scrollbars="vertical"
+                android:gravity="top|start" />
+
+        </androidx.cardview.widget.CardView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ground1"
+                android:visibility="invisible"
+                app:boxBackgroundMode="none"
+                app:endIconMode="password_toggle"
+                android:layout_marginTop="15dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/correctAnswer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword|textMultiLine"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:singleLine="false"
+                    android:drawableTint="#222121" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/buttonControls"
+            android:layout_marginStart="20dp"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/checkButton"
+                android:layout_marginTop="20dp"
+                android:layout_width="80dp"
+                android:text="Check"
+                android:textAllCaps="false"
+                android:onClick="@{() -> viewModel.clickedToCheck()}"
+                android:textSize="14sp"
+                android:background="#2196F3"
+                android:textColor="@color/white"
+                android:layout_height="50dp" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/skipButton"
+                android:layout_marginTop="20dp"
+                android:layout_width="80dp"
+                android:onClick="@{() -> viewModel.clickedtoSkip()}"
+                android:text="Skip"
+                android:layout_marginStart="50dp"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                android:background="#2196F3"
+                android:textColor="@color/white"
+                android:layout_height="50dp" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>
