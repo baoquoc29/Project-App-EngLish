@@ -1,5 +1,7 @@
 package com.example.testaudioenglish.Repository;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -42,25 +44,31 @@ public class AccountRepository {
         return data;
     }
 
-    public LiveData<UserScoreResponse> getHistory(Long idCustomer) {
+    public LiveData<UserScoreResponse> getHistory(Long idCustomer, int page, int size) {
         MutableLiveData<UserScoreResponse> data = new MutableLiveData<>();
-        accountService.getHistoryExamByIdCustomer(idCustomer).enqueue(new Callback<UserScoreResponse>() {
+
+        accountService.getHistoryExamByIdCustomer(idCustomer, page, size).enqueue(new Callback<UserScoreResponse>() {
             @Override
             public void onResponse(Call<UserScoreResponse> call, Response<UserScoreResponse> response) {
                 if (response.isSuccessful()) {
+                    Log.d("API Response", "Data: " + response.body());
                     data.setValue(response.body());
                 } else {
+                    Log.e("API Error", "Response code: " + response.code() + " Message: " + response.message());
                     data.setValue(null);
                 }
             }
 
             @Override
             public void onFailure(Call<UserScoreResponse> call, Throwable t) {
+                Log.e("API Failure", "Error: " + t.getMessage(), t); // Thêm log chi tiết lỗi
                 data.setValue(null);
             }
         });
+
         return data;
     }
+
     public LiveData<IntegerResponse> getTotalExamByIdCustomer(Long idCustomer){
         MutableLiveData<IntegerResponse> data = new MutableLiveData<>();
         accountService.getTotalExamByIdCustomer(idCustomer).enqueue(new Callback<IntegerResponse>() {

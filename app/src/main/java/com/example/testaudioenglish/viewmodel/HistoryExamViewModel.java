@@ -17,8 +17,8 @@ public class HistoryExamViewModel extends AndroidViewModel {
         super(application);
         repository = new AccountRepository();
     }
-    private void loadHistoryExam(long idCustomer) {
-        repository.getHistory(idCustomer).observeForever(response -> {
+    private void loadHistoryExam(long idCustomer,int page,int size) {
+        repository.getHistory(idCustomer,page,size).observeForever(response -> {
             if (response != null) {
                 listHistory.setValue(response);
             } else {
@@ -27,10 +27,10 @@ public class HistoryExamViewModel extends AndroidViewModel {
         });
     }
 
-    public LiveData<UserScoreResponse> getHistoryExam(long idCustomer) {
+    public LiveData<UserScoreResponse> getHistoryExam(long idCustomer,int page,int size) {
         if (listHistory == null) {
             listHistory = new MutableLiveData<>();
-            loadHistoryExam(idCustomer);
+            loadHistoryExam(idCustomer,page,size);
         }
         return listHistory;
     }

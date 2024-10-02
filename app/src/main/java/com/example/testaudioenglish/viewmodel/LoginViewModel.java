@@ -166,6 +166,7 @@ public class LoginViewModel extends AndroidViewModel {
                     getCheckDay(usernameValue);
                     navigateToLogin.setValue(new Event<>(true));
                 } else {
+                    Log.e("LoginError", "Error Code: " + response.code() + ", Message: " + response.message());
                     message.setValue("Thông tin tài khoản không chính xác");
                 }
             }

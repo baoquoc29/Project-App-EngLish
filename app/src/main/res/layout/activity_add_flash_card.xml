@@ -31,7 +31,27 @@
             android:layout_marginEnd="10dp"
             android:contentDescription="@string/check_description" />
     </androidx.appcompat.widget.Toolbar>
-
+   <LinearLayout
+       android:layout_width="wrap_content"
+       android:layout_marginTop="20dp"
+       android:padding="5dp"
+       android:id="@+id/layoutScanner"
+       android:layout_height="wrap_content">
+       <ImageView
+           android:layout_width="30dp"
+           android:id="@+id/scanner"
+           android:layout_gravity="center"
+           android:src="@drawable/scanner"
+           android:layout_height="30dp"></ImageView>
+       <TextView
+           android:layout_width="wrap_content"
+           android:text="Quét tài liệu"
+           android:layout_marginStart="10dp"
+           android:textColor="@color/totalCompleteColor"
+           android:textColorHint="@color/black"
+           android:layout_gravity="center"
+           android:layout_height="wrap_content"></TextView>
+   </LinearLayout>
     <EditText
         android:id="@+id/nameLesson"
         android:layout_width="match_parent"
@@ -43,6 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:textColor="@color/black"
         android:text="@string/title_label" />
 
     <LinearLayout

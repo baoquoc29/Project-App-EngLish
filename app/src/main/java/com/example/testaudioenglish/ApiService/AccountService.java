@@ -14,13 +14,17 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface AccountService {
-    @POST("/dev/api/v1/auth/signup")
+
+    @POST("/dev/api/v1/auth/accounts/signup")
     Call<Void> signUp(@Body AccountCustomer accountCustomer);
-    @POST("dev/api/v1/auth/login")
+
+    @POST("/dev/api/v1/auth/accounts/login")
     Call<UserResponse> login(@Body AccountCustomer accountCustomer);
-    @POST("dev/api/v1/auth/forgot")
+
+    @POST("/dev/api/v1/auth/accounts/forgot")
     Call<Void> forgot(@Body EmailSendModel emailSendModel);
 
     @GET("/dev/api/v1/get_max/id/{id_customer}")
@@ -30,25 +34,26 @@ public interface AccountService {
     Call<IntegerResponse> getTotalExamByIdCustomer(@Path("id_customer") long idCustomer);
 
     @GET("/dev/api/v1/get_history/id/{id_customer}")
-    Call<UserScoreResponse> getHistoryExamByIdCustomer(@Path("id_customer") long idCustomer);
+    Call<UserScoreResponse> getHistoryExamByIdCustomer(
+            @Path("id_customer") long idCustomer,
+            @Query("page") int page,
+            @Query("size") int size);
 
-    @PUT("/dev/api/v1/auth/update/customer/id/{id_customer}")
+    @PUT("/dev/api/v1/auth/accounts/update/customer/id/{id_customer}")
     Call<CustomerResponse> updateCustomer(@Path("id_customer") long idCustomer ,@Body AccountCustomer accountCustomer);
 
-    @GET("/dev/api/v1/auth/get_customer/customer/id/{id_customer}")
+    @GET("/dev/api/v1/auth/accounts/get_customer/customer/id/{id_customer}")
     Call<CustomerResponse> getInformationOfCustomer(@Path("id_customer") long idCustomer);
 
-    @POST("/dev/api/v1/auth/update_day_online/account/username/{name}")
+    @POST("/dev/api/v1/auth/accounts/update_day_online/account/username/{name}")
     Call<Void> update_total_day_online(@Path("name") String name);
 
-    @GET("/dev/api/v1/auth/get_total_day_online/account/username/{name}")
+    @GET("/dev/api/v1/auth/accounts/get_total_day_online/account/username/{name}")
     Call<IntegerResponse> get_total_day_online(@Path("name") String name);
 
-
-    @GET("/dev/api/v1/auth/get_check_day/account/username/{name}")
+    @GET("/dev/api/v1/auth/accounts/get_check_day/account/username/{name}")
     Call<StringResponse> get_check_day(@Path("name") String name);
 
-    @POST("/dev/api/v1/auth/update_check_day/account/username/{user_name}")
-    Call<Void> update_check_day(@Path("user_name") String name,@Body String date);
-
+    @POST("/dev/api/v1/auth/accounts/update_check_day/account/username/{user_name}")
+    Call<Void> update_check_day(@Path("user_name") String name, @Body String date);
 }

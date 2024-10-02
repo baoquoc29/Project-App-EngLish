@@ -12,12 +12,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testaudioenglish.Adapter.HistoryAdapter;
+import com.example.testaudioenglish.Model.HistoryModel;
 import com.example.testaudioenglish.Model.ToeicModel.UserScoreModel;
 import com.example.testaudioenglish.R;
 import com.example.testaudioenglish.Response.UserScoreResponse;
 import com.example.testaudioenglish.databinding.ActivityHistoryExamBinding;
 import com.example.testaudioenglish.viewmodel.HistoryExamViewModel;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,8 +70,9 @@ public class HistoryExamActivity extends AppCompatActivity {
     private void loadUserHistory() {
         SharedPreferences userPrefs = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         long idCustomer = userPrefs.getLong("idCustomer", DEFAULT_ID_CUSTOMER);
-
-        historyExamViewModel.getHistoryExam(idCustomer).observe(this, new Observer<UserScoreResponse>() {
+        int page = 0;
+        int size = 5;
+        historyExamViewModel.getHistoryExam(idCustomer,page,size).observe(this, new Observer<UserScoreResponse>() {
             @Override
             public void onChanged(UserScoreResponse userScoreResponse) {
                 if (userScoreResponse != null) {

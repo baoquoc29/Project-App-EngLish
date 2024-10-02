@@ -23,7 +23,7 @@ public interface EnglishAppService {
             @Path("part") String part
     );
 
-    @GET("/dev/api/v1/listening-answers/id_quiz/{id_quiz}")
+    @GET("/dev/api/v1/listening/id_quiz/{id_quiz}")
     Call<ListeningResponse> getListeningAllData(
             @Path("id_quiz") long id
     );
@@ -34,7 +34,7 @@ public interface EnglishAppService {
     @GET("/dev/api/v1/reading/id/{id}/part/{part}")
     Call<ReadingResponse> getAllPart6(@Path("id") long id, @Path("part") String part);
 
-    @GET("/dev/api/v1/show_quiz")
+    @GET("/dev/api/v1/quiz/show_quiz")
     Call<TopicResponse> getAllTopicToeic();
 
     @POST("/dev/api/v1/complete_exam")

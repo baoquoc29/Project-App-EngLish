@@ -329,7 +329,7 @@ public class ShortConversationFragment extends Fragment implements OnItemClickLi
     public void clickToCheck(ImageListeningModel currentAnswer) {
         shortConversationViewModel.getNavigationToCheck().observe(getViewLifecycleOwner(), clicked -> {
             if (clicked) {
-                if(radioGroup1.getCheckedRadioButtonId() == -1 || radioGroup2.getCheckedRadioButtonId() == - 1 || radioGroup3.getCheckedRadioButtonId() == -1){
+                if(radioGroup1.getCheckedRadioButtonId() != -1 && radioGroup2.getCheckedRadioButtonId() != - 1 && radioGroup3.getCheckedRadioButtonId() != -1){
                     CheckListAnswer answer = checkAnswer.get(currentIndex);
                     answer.setCorrect(true);
                     CheckListAnswer answer1 = checkAnswer.get(currentIndex + 1);
@@ -340,7 +340,6 @@ public class ShortConversationFragment extends Fragment implements OnItemClickLi
                     checkAnswerForGroup(currentIndex, radioGroup1, correctAnswer1);
                     checkAnswerForGroup(currentIndex + 1, radioGroup2, correctAnswer2);
                     checkAnswerForGroup(currentIndex + 2, radioGroup3, correctAnswer3);
-
                     shortConversationViewModel.clickedToUnCheck();
                 }
                 else{
@@ -358,10 +357,10 @@ public class ShortConversationFragment extends Fragment implements OnItemClickLi
             String selectedAnswer = selectedRadioButton.getText().toString().split(":")[0];
             checkAnswer.get(id).setSelectedAnswer(selectedAnswer);
             correctAnswerView.setText("Đáp án đúng là: " + currentQuestion.getAnswerCorrect());
-        } else {
-            Toast.makeText(getContext(), "Please select an answer.", Toast.LENGTH_SHORT).show();
-
         }
+//        } else {
+//            Toast.makeText(getContext(), "Please select an answer.", Toast.LENGTH_SHORT).show();
+//        }
     }
 
 

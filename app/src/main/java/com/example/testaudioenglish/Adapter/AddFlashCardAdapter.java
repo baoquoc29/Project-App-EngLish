@@ -9,10 +9,20 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.testaudioenglish.ApiService.RapidAPI;
 import com.example.testaudioenglish.Model.WordFlashCard;
 import com.example.testaudioenglish.R;
+import com.example.testaudioenglish.Response.TranslateRequest;
+import com.example.testaudioenglish.Response.TranslateResponse;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AddFlashCardAdapter extends RecyclerView.Adapter<AddFlashCardAdapter.ViewHolder> {
 
@@ -66,11 +76,9 @@ public class AddFlashCardAdapter extends RecyclerView.Adapter<AddFlashCardAdapte
                 definitionInput.removeTextChangedListener(definitionTextWatcher);
             }
 
-            // Set initial text
             termInput.setText(flashCard.getEngVer());
             definitionInput.setText(flashCard.getVietVer());
 
-            // Create new TextWatchers
             termTextWatcher = new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -80,11 +88,13 @@ public class AddFlashCardAdapter extends RecyclerView.Adapter<AddFlashCardAdapte
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     flashCard.setEngVer(charSequence.toString());
+                    getApi(charSequence.toString());
                 }
 
                 @Override
                 public void afterTextChanged(Editable editable) {
                     // Do nothing
+
                 }
             };
 
@@ -105,9 +115,48 @@ public class AddFlashCardAdapter extends RecyclerView.Adapter<AddFlashCardAdapte
                 }
             };
 
-            // Add the new TextWatchers
             termInput.addTextChangedListener(termTextWatcher);
             definitionInput.addTextChangedListener(definitionTextWatcher);
         }
+
+        public void getApi(String term) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("https://ai-translate.p.rapidapi.com/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            RapidAPI rapidAPI = retrofit.create(RapidAPI.class);
+
+            List<String> list = new ArrayList<>();
+            list.add(term);
+            TranslateRequest request = new TranslateRequest(list, "vi", "en");
+
+            Call<TranslateResponse> call = rapidAPI.translate(request);
+
+            call.enqueue(new Callback<TranslateResponse>() {
+                @Override
+                public void onResponse(Call<TranslateResponse> call, Response<TranslateResponse> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        TranslateResponse translation = response.body();
+                        definitionInput.setText(translation.getTexts().toString());
+                    } else {
+                        System.out.println("Request failed: " + response.code() + " " + response.message());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<TranslateResponse> call, Throwable t) {
+
+                    System.out.println("API call failed: " + t.getMessage());
+                    t.printStackTrace();
+                }
+            });
+        }
+
+
+    }
+    public void deleteItem(int position) {
+        flashCardList.remove(position);
+        notifyItemRemoved(position);
     }
 }

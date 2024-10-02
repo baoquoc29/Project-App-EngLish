@@ -1,11 +1,16 @@
 package com.example.testaudioenglish.Activity;
 
+
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,16 +18,23 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testaudioenglish.Adapter.AddFlashCardAdapter;
+import com.example.testaudioenglish.Custom.SwipeToDeleteCallback;
 import com.example.testaudioenglish.Entity.FlashCardEntity;
 import com.example.testaudioenglish.Entity.TopicFlashCardEntity;
 import com.example.testaudioenglish.Model.WordFlashCard;
 import com.example.testaudioenglish.R;
 import com.example.testaudioenglish.viewmodel.FlashCardAddViewModel;
+import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.text.Text;
+import com.google.mlkit.vision.text.TextRecognition;
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,11 +53,17 @@ public class AddFlashCardActivity extends AppCompatActivity {
     private List<WordFlashCard> list = new ArrayList<>();
     private long idTopic;
     private String statusEdit;
-
+    private LinearLayout layoutScanner;
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private List<String> listEnglish = new ArrayList<>();
+    private List<String> listVietNamese = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_flash_card);
+
+
+
 
         initViews();
         setupToolbar();
@@ -54,12 +72,20 @@ public class AddFlashCardActivity extends AppCompatActivity {
 
         addFlash.setOnClickListener(view -> addNewItem());
         checkFinish.setOnClickListener(view -> validateAndImport());
+        layoutScanner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openGallery();
+            }
+        });
     }
+
 
     private void initViews() {
         textLesson = findViewById(R.id.nameLesson);
         recyclerView = findViewById(R.id.recyflashcard);
         addFlash = findViewById(R.id.add_flashcard);
+        layoutScanner = findViewById(R.id.layoutScanner);
         checkFinish = findViewById(R.id.checkFinish);
         viewModel = new ViewModelProvider(this).get(FlashCardAddViewModel.class);
     }
@@ -90,6 +116,8 @@ public class AddFlashCardActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AddFlashCardAdapter(list);
         recyclerView.setAdapter(adapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter, this));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     private void setRecyclerViewData() {
@@ -196,6 +224,79 @@ public class AddFlashCardActivity extends AppCompatActivity {
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+    private void openGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri imageUri = data.getData();
+            processImage(imageUri);
+        }
+    }
+
+    private void processImage(Uri imageUri) {
+        try {
+            InputImage inputImage = InputImage.fromFilePath(this, imageUri);
+
+            // Nhận diện văn bản với ML Kit
+            TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+                    .process(inputImage)
+                    .addOnSuccessListener(text -> {
+                        // Xử lý văn bản nhận diện được
+                        processTextRecognitionResult(text);
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("MLKit", "Text recognition failed: " + e.getMessage());
+                    });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void processTextRecognitionResult(Text texts) {
+        listEnglish.clear();
+        listVietNamese.clear();
+
+        for (Text.TextBlock block : texts.getTextBlocks()) {
+            List<Text.Line> lines = block.getLines();
+
+            for (Text.Line line : lines) {
+                String lineText = line.getText().toString().trim();
+                if (lineText.contains(":")) {
+                    String[] parts = lineText.split("[:,.;]");
+
+                    if (parts.length > 1) {
+                        String engText = parts[0].trim();
+                        String vietText = parts[1].trim();
+
+                        if (!listVietNamese.contains(vietText)) {
+                            listVietNamese.add(vietText);
+                        }
+                        if (!listEnglish.contains(engText)) {
+                            listEnglish.add(engText);
+                        }
+                    }
+                }
+            }
+        }
+
+        list.clear();
+        for (int i = 0; i < listVietNamese.size(); i++) {
+            list.add(new WordFlashCard(listEnglish.get(i), listVietNamese.get(i)));
+        }
+        if(list == null){
+            Toast.makeText(this, "Không nhận diện được hình ảnh!", Toast.LENGTH_SHORT).show();
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+
 
     @Override
     public boolean onSupportNavigateUp() {

@@ -1,5 +1,7 @@
 package com.example.testaudioenglish.View.AppView;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,10 +18,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +64,11 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
     private RecyclerView dictation_topic;
     private List<TopicDictationModel> dictationModelList = new ArrayList<>();
     private TopicDictationAdapter topicDictationAdapter;
+    private static final String PREF_NAME = "ChronometerPref";
+    private static final String TIME_KEY = "chrono_time";
+    private SharedPreferences sharedPreferences;
+    private long timeWhenStopped = 0;
+    private Chronometer chronometer;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -109,11 +118,11 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
         }
     }
     private void loadUserDetails() {
-        SharedPreferences sharedPref = requireActivity().getSharedPreferences("my_preferences", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = requireActivity().getSharedPreferences("my_preferences", MODE_PRIVATE);
         String storedUsername = sharedPref.getString("username", "");
 
-        SharedPreferences sharedDate = requireActivity().getSharedPreferences("CheckDate", Context.MODE_PRIVATE);
-        SharedPreferences userPrefs = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        SharedPreferences sharedDate = requireActivity().getSharedPreferences("CheckDate", MODE_PRIVATE);
+        SharedPreferences userPrefs = requireActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
         Long idCustomer = userPrefs.getLong("idCustomer", 1L);
         int totalDay = userPrefs.getInt("totalDay",0);
         String date = sharedDate.getString("date","-1");
@@ -225,7 +234,6 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
         intent.putExtra("idCustomer", 1);
         startActivity(intent);
     }
-
     @Override
     public void onItemClick(int position) {
         this.position = position;
