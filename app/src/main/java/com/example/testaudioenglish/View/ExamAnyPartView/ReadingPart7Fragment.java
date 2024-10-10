@@ -55,8 +55,10 @@ public class ReadingPart7Fragment extends Fragment implements OnItemClickListene
     private static final  String ARG_TAGPART = "tag";
 
     // TODO: Rename and change types of parameters
+    private static final String ID_TOPIC  ="IdTopic";
     private String mParam1;
     private String mParam2;
+    private Long idTopic;
 
     public ReadingPart7Fragment() {
         // Required empty public constructor
@@ -71,12 +73,13 @@ public class ReadingPart7Fragment extends Fragment implements OnItemClickListene
      * @return A new instance of fragment ReadingPartSixFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ReadingPart7Fragment newInstance(String param1, String param2,String tagPart) {
+    public static ReadingPart7Fragment newInstance(String param1, String param2,String tagPart,Long idTopic) {
         ReadingPart7Fragment fragment = new ReadingPart7Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         args.putString(ARG_TAGPART,tagPart);
+        args.putLong(ID_TOPIC,idTopic);
         fragment.setArguments(args);
         return fragment;
     }
@@ -88,6 +91,7 @@ public class ReadingPart7Fragment extends Fragment implements OnItemClickListene
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
             tagPart = getArguments().getString(ARG_TAGPART);
+            idTopic = getArguments().getLong(ID_TOPIC);
         }
     }
     private ExamAnyFragmentViewModel examAnyFragmentViewModel;
@@ -473,7 +477,7 @@ public class ReadingPart7Fragment extends Fragment implements OnItemClickListene
             if(currentIndex >= 25){
                 imageReading.setVisibility(View.GONE);
                 list_image.setVisibility(View.VISIBLE);
-                String imageUrlsString = list.get(currentIndex).getIamge(); // Đảm bảo phương thức là getImage()
+                String imageUrlsString = list.get(currentIndex).getImage(); // Đảm bảo phương thức là getImage()
                 List<String> list_images = Arrays.asList(imageUrlsString.split(","));
                 ImageAdapter imageAdapter = new ImageAdapter(getContext(), list_images);
                 viewPager.setAdapter(imageAdapter);
@@ -533,7 +537,7 @@ public class ReadingPart7Fragment extends Fragment implements OnItemClickListene
 
     private void loadImageForQuestion(int currentIndex) {
         Glide.with(this)
-                .load(list.get(currentIndex).getIamge())
+                .load(list.get(currentIndex).getImage())
                 .into(imageReading);
     }
     private void updateRadioButtons() {
@@ -581,7 +585,7 @@ public class ReadingPart7Fragment extends Fragment implements OnItemClickListene
 
 
     private void loadData() {
-        examAnyFragmentViewModel.getReadingDataPart6(1,tagPart).observe(getViewLifecycleOwner(), new Observer<ReadingResponse>() {
+        examAnyFragmentViewModel.getReadingDataPart6(idTopic,tagPart).observe(getViewLifecycleOwner(), new Observer<ReadingResponse>() {
             @Override
             public void onChanged(ReadingResponse readingResponse) {
                 if ( readingResponse== null || readingResponse.getData() == null) {

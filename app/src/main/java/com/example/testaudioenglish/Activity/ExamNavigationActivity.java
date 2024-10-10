@@ -22,17 +22,16 @@ public class ExamNavigationActivity extends AppCompatActivity implements OnItemC
     private List<EachPartModel> list = new ArrayList<>();
     private EachPartAdapter adapter;
     private RecyclerView recyclerView;
-
+    private Long idTopic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_exam_each_part);
-
-        // Set up RecyclerView
         recyclerView = findViewById(R.id.recylePart); // Make sure this ID matches your layout
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         setupToolbar();
+        idTopic = getIntent().getLongExtra("idTopic",-1);
         adapter = new EachPartAdapter(list,this);
         recyclerView.setAdapter(adapter);
         loadList();
@@ -68,6 +67,7 @@ public class ExamNavigationActivity extends AppCompatActivity implements OnItemC
         Intent intent = new Intent(this, ManagementExamAnyPartActivity.class);
         intent.putExtra("part", clickedPart.getTitle());
         intent.putExtra("value",Long.valueOf(1));
+        intent.putExtra("idTopic",idTopic);
         startActivity(intent);
     }
 }

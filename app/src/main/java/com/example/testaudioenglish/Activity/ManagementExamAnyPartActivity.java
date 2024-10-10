@@ -16,7 +16,7 @@ import com.example.testaudioenglish.View.ExamAnyPartView.ReadingPartSixFragment;
 import com.example.testaudioenglish.View.ExamAnyPartView.ShortConversationFragment;
 
 public class ManagementExamAnyPartActivity extends AppCompatActivity {
-
+    private Long idTopic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +24,7 @@ public class ManagementExamAnyPartActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String part = intent.getStringExtra("part");
-
+        idTopic = getIntent().getLongExtra("idTopic",-1);
         Fragment fragment = null;
         String fragmentTag = null;
 
@@ -34,7 +34,7 @@ public class ManagementExamAnyPartActivity extends AppCompatActivity {
                     fragment = (PictureListeningFragment) getSupportFragmentManager()
                             .findFragmentByTag(PictureListeningFragment.class.getSimpleName());
                     if (fragment == null) {
-                        fragment = PictureListeningFragment.newInstance("param1", "param2");
+                        fragment = PictureListeningFragment.newInstance("param1", "param2",idTopic);
                         fragmentTag = PictureListeningFragment.class.getSimpleName();
                     }
                     break;
@@ -42,7 +42,7 @@ public class ManagementExamAnyPartActivity extends AppCompatActivity {
                     fragment = (QuestionListeningFragment) getSupportFragmentManager()
                             .findFragmentByTag(QuestionListeningFragment.class.getSimpleName());
                     if (fragment == null) {
-                        fragment = QuestionListeningFragment.newInstance("param1", "param2");
+                        fragment = QuestionListeningFragment.newInstance("param1", "param2",idTopic);
                         fragmentTag = QuestionListeningFragment.class.getSimpleName();
                     }
                     break;
@@ -50,7 +50,7 @@ public class ManagementExamAnyPartActivity extends AppCompatActivity {
                     fragment = (ShortConversationFragment) getSupportFragmentManager()
                             .findFragmentByTag(ShortConversationFragment.class.getSimpleName());
                     if (fragment == null) {
-                        fragment = ShortConversationFragment.newInstance("param1", "param2", "Part 3");
+                        fragment = ShortConversationFragment.newInstance("param1", "param2", "Part 3",idTopic);
                         fragmentTag = ShortConversationFragment.class.getSimpleName();
                     }
                     break;
@@ -58,24 +58,24 @@ public class ManagementExamAnyPartActivity extends AppCompatActivity {
                     fragment = (ShortConversationFragment) getSupportFragmentManager()
                             .findFragmentByTag(ShortConversationFragment.class.getSimpleName());
                     if (fragment == null) {
-                        fragment = ShortConversationFragment.newInstance("param1", "param2", "Part 4");
+                        fragment = ShortConversationFragment.newInstance("param1", "param2", "Part 4",idTopic);
                         fragmentTag = ShortConversationFragment.class.getSimpleName();
                     }
                     break;
 
                 case "Part 5: Ngữ pháp":
                     fragment = (IncompleteSentencesFragment) getSupportFragmentManager()
-                            .findFragmentByTag(ShortConversationFragment.class.getSimpleName());
+                            .findFragmentByTag(IncompleteSentencesFragment.class.getSimpleName());
                     if (fragment == null) {
-                        fragment = IncompleteSentencesFragment.newInstance("param1", "param2", "Part 5");
+                        fragment = IncompleteSentencesFragment.newInstance("param1", "param2", "Part 5",idTopic);
                         fragmentTag = IncompleteSentencesFragment.class.getSimpleName();
                     }
                     break;
                 case "Part 6: Hoàn thành đoạn văn":
                     fragment = (ReadingPartSixFragment) getSupportFragmentManager()
-                            .findFragmentByTag(ShortConversationFragment.class.getSimpleName());
+                            .findFragmentByTag(ReadingPartSixFragment.class.getSimpleName());
                     if (fragment == null) {
-                        fragment = ReadingPartSixFragment.newInstance("param1", "param2", "Part 6");
+                        fragment = ReadingPartSixFragment.newInstance("param1", "param2", "Part 6",idTopic);
                         fragmentTag = ReadingPartSixFragment.class.getSimpleName();
                     }
                     break;
@@ -84,7 +84,7 @@ public class ManagementExamAnyPartActivity extends AppCompatActivity {
                     fragment = (ReadingPart7Fragment) getSupportFragmentManager()
                             .findFragmentByTag(ReadingPart7Fragment.class.getSimpleName());
                     if (fragment == null) {
-                        fragment = ReadingPart7Fragment.newInstance("param1", "param2", "Part 7");
+                        fragment = ReadingPart7Fragment.newInstance("param1", "param2", "Part 7",idTopic);
                         fragmentTag = ReadingPart7Fragment.class.getSimpleName();
                     }
                     break;

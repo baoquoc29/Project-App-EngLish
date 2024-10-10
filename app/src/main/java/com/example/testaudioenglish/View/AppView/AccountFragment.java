@@ -24,6 +24,7 @@ public class AccountFragment extends Fragment {
     private AccountFragmentViewModel accountFragmentViewModel;
     private SharedPreferences sharedPref;
     private SharedPreferences userPrefs;
+    private SharedPreferences getId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,7 +36,7 @@ public class AccountFragment extends Fragment {
 
         sharedPref = requireActivity().getSharedPreferences("my_preferences", Context.MODE_PRIVATE);
         userPrefs = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-
+        getId = requireActivity().getSharedPreferences("GetIDUser",Context.MODE_PRIVATE);
         initializeViewModel();
         setupObservers();
 
@@ -80,5 +81,6 @@ public class AccountFragment extends Fragment {
     private void clearPreferences() {
         sharedPref.edit().clear().apply();
         userPrefs.edit().clear().apply();
+        getId.edit().clear().apply();
     }
 }

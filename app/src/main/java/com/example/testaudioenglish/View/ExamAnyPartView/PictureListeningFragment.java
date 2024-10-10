@@ -69,19 +69,20 @@ public class PictureListeningFragment extends Fragment implements OnItemClickLis
     private String tagPart;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private static final String ID_TOPIC  ="IdTopic";
     private String mParam1;
     private String mParam2;
-
+    private Long idTopic;
     public PictureListeningFragment() {
         // Required empty public constructor
     }
 
-    public static PictureListeningFragment newInstance(String param1, String param2) {
+    public static PictureListeningFragment newInstance(String param1, String param2,Long idTopic) {
         PictureListeningFragment fragment = new PictureListeningFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
+        args.putLong(ID_TOPIC,idTopic);
         fragment.setArguments(args);
         return fragment;
     }
@@ -92,6 +93,7 @@ public class PictureListeningFragment extends Fragment implements OnItemClickLis
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            idTopic = getArguments().getLong(ID_TOPIC);
         }
     }
 
@@ -391,7 +393,7 @@ public class PictureListeningFragment extends Fragment implements OnItemClickLis
 
 
     private void loadData() {
-        examAnyFragmentViewModel.getListeningData(1,"Part 1").observe(getViewLifecycleOwner(), new Observer<ListeningResponse>() {
+        examAnyFragmentViewModel.getListeningData(idTopic,"Part 1").observe(getViewLifecycleOwner(), new Observer<ListeningResponse>() {
             @Override
             public void onChanged(ListeningResponse listeningResponse) {
                 if (listeningResponse == null || listeningResponse.getData() == null) {

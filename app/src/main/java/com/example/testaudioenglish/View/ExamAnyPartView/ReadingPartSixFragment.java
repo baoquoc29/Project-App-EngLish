@@ -52,8 +52,10 @@ public class ReadingPartSixFragment extends Fragment implements OnItemClickListe
     private static final  String ARG_TAGPART = "tag";
 
     // TODO: Rename and change types of parameters
+    private static final String ID_TOPIC  ="IdTopic";
     private String mParam1;
     private String mParam2;
+    private Long idTopic;
 
     public ReadingPartSixFragment() {
         // Required empty public constructor
@@ -68,12 +70,13 @@ public class ReadingPartSixFragment extends Fragment implements OnItemClickListe
      * @return A new instance of fragment ReadingPartSixFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ReadingPartSixFragment newInstance(String param1, String param2,String tagPart) {
+    public static ReadingPartSixFragment newInstance(String param1, String param2,String tagPart,Long idTopic) {
         ReadingPartSixFragment fragment = new ReadingPartSixFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         args.putString(ARG_TAGPART,tagPart);
+        args.putLong(ID_TOPIC,idTopic);
         fragment.setArguments(args);
         return fragment;
     }
@@ -85,6 +88,7 @@ public class ReadingPartSixFragment extends Fragment implements OnItemClickListe
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
             tagPart = getArguments().getString(ARG_TAGPART);
+            idTopic = getArguments().getLong(ID_TOPIC);
         }
     }
     private ExamAnyFragmentViewModel examAnyFragmentViewModel;
@@ -390,7 +394,7 @@ public class ReadingPartSixFragment extends Fragment implements OnItemClickListe
                 questionParts[i].setText("Question " + (index + i + 1) + ": ");
             }
             Glide.with(this)
-                    .load(list.get(currentIndex).getIamge())
+                    .load(list.get(currentIndex).getImage())
                     .into(imageReading);
             radioButtons[0].setText("A: " + list.get(currentIndex).getOptionA());
             radioButtons[1].setText("B: " + list.get(currentIndex).getOptionB());
@@ -422,7 +426,7 @@ public class ReadingPartSixFragment extends Fragment implements OnItemClickListe
 
 
     private void loadData() {
-        examAnyFragmentViewModel.getReadingDataPart6(1,tagPart).observe(getViewLifecycleOwner(), new Observer<ReadingResponse>() {
+        examAnyFragmentViewModel.getReadingDataPart6(idTopic,tagPart).observe(getViewLifecycleOwner(), new Observer<ReadingResponse>() {
             @Override
             public void onChanged(ReadingResponse readingResponse) {
                 if ( readingResponse== null || readingResponse.getData() == null) {

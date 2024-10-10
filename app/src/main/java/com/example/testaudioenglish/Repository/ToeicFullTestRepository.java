@@ -7,13 +7,12 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.testaudioenglish.ApiService.EnglishAppService;
 import com.example.testaudioenglish.ApiService.RetrofitClient;
-import com.example.testaudioenglish.Model.DictationQuestionsModel;
 import com.example.testaudioenglish.Model.ToeicModel.UserScoreModel;
-import com.example.testaudioenglish.Model.TopicDictationModel;
 import com.example.testaudioenglish.Response.DictationQuestionsRespone;
 import com.example.testaudioenglish.Response.DictationRespone;
 import com.example.testaudioenglish.Response.ListeningResponse;
 import com.example.testaudioenglish.Response.MultipleChoiceRespone;
+import com.example.testaudioenglish.Response.NotificationResponse;
 import com.example.testaudioenglish.Response.ReadingResponse;
 import com.example.testaudioenglish.Response.TopicResponse;
 
@@ -208,4 +207,34 @@ public class ToeicFullTestRepository {
         });
         return data;
     }
+    public LiveData<NotificationResponse> getNotificationsById(Long id, String type) {
+        MutableLiveData<NotificationResponse> data = new MutableLiveData<>();
+
+
+        Log.d("getNotificationsById", "Request started for id: " + id + ", type: " + type);
+
+        englishAppService.getNotificationById(id, type).enqueue(new Callback<NotificationResponse>() {
+            @Override
+            public void onResponse(Call<NotificationResponse> call, Response<NotificationResponse> response) {
+                if (response.isSuccessful()) {
+                    // Log khi nhận phản hồi thành công
+                    Log.d("getNotificationsById", "Request successful: " + response.body().toString());
+                    data.setValue(response.body());
+                } else {
+                    // Log khi phản hồi không thành công
+                    Log.e("getNotificationsById", "Request failed with code: " + response.code());
+                    data.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NotificationResponse> call, Throwable t) {
+                // Log khi có lỗi trong quá trình gọi API
+                Log.e("getNotificationsById", "Request failed: " + t.getMessage(), t);
+            }
+        });
+
+        return data;
+    }
+
 }

@@ -96,7 +96,7 @@ public class PartSixAdapter extends PagerAdapter {
 
                 // Load image for the first question of each set
                 if (i == 0) {
-                    String imageUrl = questionList.get(questionIndex).getIamge();
+                    String imageUrl = questionList.get(questionIndex).getImage();
                     Glide.with(view).load(imageUrl).into(imagePartSix);
                 }
             } else {

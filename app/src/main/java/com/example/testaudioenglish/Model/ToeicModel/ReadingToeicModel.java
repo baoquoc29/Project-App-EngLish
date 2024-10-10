@@ -6,7 +6,7 @@ public class ReadingToeicModel {
     private Long id_quiz;
     private String title;
     private String question;
-    private String iamge;
+    private String image;
     private String optionA;
     private String optionB;
     private String optionC;
@@ -55,12 +55,13 @@ public class ReadingToeicModel {
         this.question = question;
     }
 
-    public String getIamge() {
-        return iamge;
+
+    public String getImage() {
+        return image;
     }
 
-    public void setIamge(String iamge) {
-        this.iamge = iamge;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getOptionA() {

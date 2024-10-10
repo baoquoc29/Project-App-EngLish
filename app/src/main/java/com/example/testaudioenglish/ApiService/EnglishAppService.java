@@ -1,12 +1,11 @@
 package com.example.testaudioenglish.ApiService;
 
-import com.example.testaudioenglish.Model.DictationQuestionsModel;
 import com.example.testaudioenglish.Model.ToeicModel.UserScoreModel;
-import com.example.testaudioenglish.Model.TopicDictationModel;
 import com.example.testaudioenglish.Response.DictationQuestionsRespone;
 import com.example.testaudioenglish.Response.DictationRespone;
 import com.example.testaudioenglish.Response.ListeningResponse;
 import com.example.testaudioenglish.Response.MultipleChoiceRespone;
+import com.example.testaudioenglish.Response.NotificationResponse;
 import com.example.testaudioenglish.Response.ReadingResponse;
 import com.example.testaudioenglish.Response.TopicResponse;
 
@@ -15,6 +14,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface EnglishAppService {
     @GET("/dev/api/v1/listening/id/{id}/part/{part}")
@@ -45,5 +45,11 @@ public interface EnglishAppService {
 
     @GET("/dev/api/v1/dictation/id/{id_dictation}")
     Call<DictationQuestionsRespone> getAllQuestionByIdDictation(@Path("id_dictation") long id);
+
+
+    @GET("/dev/api/v1/notifications")
+    Call<NotificationResponse> getNotificationById(@Query("id") Long id, @Query("type") String type);
+
+
 
 }

@@ -66,17 +66,19 @@ public class IncompleteSentencesFragment extends Fragment implements OnItemClick
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private Long idTopic;
+    private static final String ID_TOPIC  ="IdTopic";
     public IncompleteSentencesFragment() {
         // Required empty public constructor
     }
     // TODO: Rename and change types and number of parameters
-    public static IncompleteSentencesFragment newInstance(String param1, String param2,String tagPart) {
+    public static IncompleteSentencesFragment newInstance(String param1, String param2,String tagPart,Long idTopic) {
         IncompleteSentencesFragment fragment = new IncompleteSentencesFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         args.putString(ARG_TAGPART,tagPart);
+        args.putLong(ID_TOPIC,idTopic);
         fragment.setArguments(args);
         return fragment;
     }
@@ -88,6 +90,7 @@ public class IncompleteSentencesFragment extends Fragment implements OnItemClick
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
             tagPart = getArguments().getString(ARG_TAGPART);
+            idTopic = getArguments().getLong(ID_TOPIC);
         }
     }
     private ExamAnyFragmentViewModel examAnyFragmentViewModel;
@@ -383,7 +386,7 @@ public class IncompleteSentencesFragment extends Fragment implements OnItemClick
 
 
     private void loadData() {
-        examAnyFragmentViewModel.getListeningAllDataPart5(1).observe(getViewLifecycleOwner(), new Observer<MultipleChoiceRespone>() {
+        examAnyFragmentViewModel.getListeningAllDataPart5(idTopic).observe(getViewLifecycleOwner(), new Observer<MultipleChoiceRespone>() {
             @Override
             public void onChanged(MultipleChoiceRespone multipleChoiceRespone) {
                 if (multipleChoiceRespone == null || multipleChoiceRespone.getData() == null) {

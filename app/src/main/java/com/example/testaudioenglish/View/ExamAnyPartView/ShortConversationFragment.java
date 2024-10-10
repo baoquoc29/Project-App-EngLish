@@ -58,16 +58,19 @@ public class ShortConversationFragment extends Fragment implements OnItemClickLi
     private String mParam1;
     private String mParam2;
     private String tagPart;
+    private Long idTopic;
+    private static final String ID_TOPIC  ="IdTopic";
     public ShortConversationFragment() {
         // Required empty public constructor
     }
 
-    public static ShortConversationFragment newInstance(String param1, String param2,String tagPart) {
+    public static ShortConversationFragment newInstance(String param1, String param2,String tagPart,Long idTopic) {
         ShortConversationFragment fragment = new ShortConversationFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         args.putString(TAG_PART,tagPart);
+        args.putLong(ID_TOPIC,idTopic);
         fragment.setArguments(args);
         return fragment;
     }
@@ -79,6 +82,7 @@ public class ShortConversationFragment extends Fragment implements OnItemClickLi
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
             tagPart = getArguments().getString(TAG_PART);
+            idTopic = getArguments().getLong(ID_TOPIC);
         }
     }
     private ExamAnyFragmentViewModel shortConversationViewModel;
@@ -167,7 +171,7 @@ public class ShortConversationFragment extends Fragment implements OnItemClickLi
         }
     }
     private void loadData() {
-        shortConversationViewModel.getListeningData(1,tagPart).observe(getViewLifecycleOwner(), new Observer<ListeningResponse>() {
+        shortConversationViewModel.getListeningData(idTopic,tagPart).observe(getViewLifecycleOwner(), new Observer<ListeningResponse>() {
             @Override
             public void onChanged(ListeningResponse listeningResponse) {
                 if (listeningResponse == null || listeningResponse.getData() == null) {

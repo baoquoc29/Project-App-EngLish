@@ -163,6 +163,7 @@ public class LoginViewModel extends AndroidViewModel {
                     Long idUser = response.body().getData().getId();
                     Long idCustomer = response.body().getData().getIdCustomer();
                     get_total_day_online(usernameValue, idUser, idCustomer);
+                    saveIdUser(idUser);
                     getCheckDay(usernameValue);
                     navigateToLogin.setValue(new Event<>(true));
                 } else {
@@ -206,7 +207,15 @@ public class LoginViewModel extends AndroidViewModel {
         editor.putLong("idCustomer", idCustomer);
         editor.putInt("totalDay", totalDay);
 
-        // Commit the changes
+        editor.apply();
+    }
+    private void saveIdUser(Long idUser) {
+        Context context = getApplication().getApplicationContext();
+        SharedPreferences sharedPreferences = context.getSharedPreferences("GetIDUser", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putLong("idUser", idUser);
+
         editor.apply();
     }
     public void updateCheckDayOnline(String name, String date) {

@@ -109,7 +109,7 @@ public class ReadingPageAdapter extends PagerAdapter {
                     questionViews[4].setVisibility(View.GONE);
                     radioGroups[4].setVisibility(View.GONE);
                 }
-                String imageUrl = question.getIamge();
+                String imageUrl = question.getImage();
                 if (!imageUrl.isEmpty()) {
                     Glide.with(view).load(imageUrl).into(imagePartSix);
                 }
@@ -133,7 +133,7 @@ public class ReadingPageAdapter extends PagerAdapter {
                     radioGroups[4].setVisibility(View.GONE);
                     setRadioGroupListener(radioGroups[i], questionIndex);
                 }
-                String imageUrl = question.getIamge();
+                String imageUrl = question.getImage();
                 if (!imageUrl.isEmpty()) {
                     Glide.with(view).load(imageUrl).into(imagePartSix);
                 }
@@ -153,7 +153,7 @@ public class ReadingPageAdapter extends PagerAdapter {
                 radioGroups[4].setVisibility(View.GONE);
                     setRadioGroupListener(radioGroups[i], questionIndex);
 
-                String imageUrl = question.getIamge();
+                String imageUrl = question.getImage();
                 if (!imageUrl.isEmpty()) {
                     Glide.with(view).load(imageUrl).into(imagePartSix);
                 }
@@ -172,7 +172,7 @@ public class ReadingPageAdapter extends PagerAdapter {
 
                 setRadioGroupListener(radioGroups[i], questionIndex);
 
-                String imageUrl = question.getIamge();
+                String imageUrl = question.getImage();
                 if (!imageUrl.isEmpty()) {
                     Glide.with(view).load(imageUrl).into(imagePartSix);
                 }

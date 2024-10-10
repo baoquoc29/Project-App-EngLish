@@ -69,17 +69,19 @@ public class QuestionListeningFragment extends Fragment implements OnItemClickLi
     private SheetsAdapter adapter;
     private String mParam1;
     private String mParam2;
-
+    private Long idTopic;
+    private static final String ID_TOPIC  ="IdTopic";
     private ExamAnyFragmentViewModel shortConversationViewModel;
     public QuestionListeningFragment() {
         // Required empty public constructor
     }
 
-    public static QuestionListeningFragment newInstance(String param1, String param2) {
+    public static QuestionListeningFragment newInstance(String param1, String param2,Long idTopic) {
         QuestionListeningFragment fragment = new QuestionListeningFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
+        args.putLong(ID_TOPIC,idTopic);
         fragment.setArguments(args);
         return fragment;
     }
@@ -90,6 +92,7 @@ public class QuestionListeningFragment extends Fragment implements OnItemClickLi
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            idTopic = getArguments().getLong(ID_TOPIC);
         }
     }
 
@@ -380,7 +383,7 @@ public class QuestionListeningFragment extends Fragment implements OnItemClickLi
 
 
     private void loadData() {
-        shortConversationViewModel.getListeningData(1,"Part 2").observe(getViewLifecycleOwner(), new Observer<ListeningResponse>() {
+        shortConversationViewModel.getListeningData(idTopic,"Part 2").observe(getViewLifecycleOwner(), new Observer<ListeningResponse>() {
             @Override
             public void onChanged(ListeningResponse listeningResponse) {
                 if (listeningResponse == null || listeningResponse.getData() == null) {
